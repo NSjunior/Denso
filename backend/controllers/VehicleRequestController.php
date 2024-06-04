@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\VehicleRequest;
+use common\models\Employee;
 use common\models\VehicleRequestSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -58,6 +59,14 @@ class VehicleRequestController extends Controller
      */
     public function actionView($id)
     {
+        // $model = $this->findModel($id);
+        // dump($model);
+        // if ($model->requested_type == 10) {
+        //     $modelOwnerRequest = $this->hasOne(Employee::class, ['id' => 'employee_code']);
+        // } elseif ($model->requested_type == 20) {
+        //     $modelOwnerRequest = $this->hasOne(Employee::class, ['id' => 'employee_code']);
+        // }
+        // dump($modelOwnerRequest);
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -74,8 +83,28 @@ class VehicleRequestController extends Controller
         $modelVehicle = new Vehicle();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            $post = $this->request->post();
+            if ($model->load($post) && $modelVehicle->load($post)) {
+                // dump($post);
+                // dump($model);
+                // dump($modelVehicle);
+                // exit;
+                if ($modelVehicle->save()) {
+
+                    $model->vehicle_id = $modelVehicle->id;
+                    $model->requested_role = VehicleRequest::ROLE_STUDENT;
+                    $model->status = VehicleRequest::STATUS_REQUEST;
+                    $model->creator = VehicleRequest::DUMMY_CREATOR;
+                    if ($model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    } else {
+                        dump($model->errors);
+                        exit;
+                    }
+                } else {
+                    dump($modelVehicle->errors);
+                    exit;
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -97,6 +126,7 @@ class VehicleRequestController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelVehicle = $model->vehicle;
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -104,6 +134,7 @@ class VehicleRequestController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelVehicle' => $modelVehicle
         ]);
     }
 

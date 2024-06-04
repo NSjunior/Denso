@@ -12,15 +12,13 @@ use common\models\Province;
 /** @var common\models\VehicleRequest $model */
 /** @var yii\widgets\ActiveForm $form */
 
-$dataList = Employee::find()->select(['code AS id', 'CONCAT(title, \' \',firstname, \' \', lastname, \' : \', code) AS text'])->andWhere(['company_id' => 1, 'id' => $model->requested_id])->asArray()->all();
-$data = ArrayHelper::map($dataList, 'id', 'text');
-$url = \yii\helpers\Url::to(['/employee/list']);
-
-
 $provinceList = Province::find()->select(['id', 'name AS text'])->andWhere(['id' => $modelVehicle->province])->asArray()->all();
 $provinceData = ArrayHelper::map($provinceList, 'id', 'text');
 $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
 
+$dataList = Employee::find()->select(['code AS id', 'CONCAT(title, \' \',firstname, \' \', lastname, \' : \', code) AS text'])->andWhere(['company_id' => 1])->asArray()->all();
+$data = ArrayHelper::map($dataList, 'id', 'text');
+$url = \yii\helpers\Url::to(['/employee/list']);
 ?>
 
 <div class="row g-4 justify-content-center mb-3 employee-form">
@@ -126,6 +124,17 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
             </div>
             <div class="col-md">
                 <?php
+                echo $form->field($modelVehicle, 'brand', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'id' => 'brand',
+                        'placeholder' => 'ยี่ห้อ',
+                    ],
+                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                ])->label('ยี่ห้อ') ?>
+            </div>
+            <div class="col-md">
+                <?php
                 echo $form->field($modelVehicle, 'model', [
                     'inputOptions' => [
                         'class' => 'form-control',
@@ -145,6 +154,30 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                     ],
                     'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
                 ])->label('สี') ?>
+            </div>
+
+
+            <div class="col-md">
+                <?php
+                echo $form->field($modelVehicle, 'image', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'id' => 'image',
+                        'placeholder' => 'รูปข้างรถ',
+                    ],
+                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                ])->label('รูปข้างรถ') ?>
+            </div>
+            <div class="col-md">
+                <?php
+                echo $form->field($modelVehicle, 'plate_image', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'id' => 'plate_image',
+                        'placeholder' => 'รูปแผ่นป้ายทะเบียน',
+                    ],
+                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                ])->label('รูปแผ่นป้ายทะเบียน') ?>
             </div>
 
             <div class="card-footer p-4">

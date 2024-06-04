@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\rbac\Role;
 
 /**
  * This is the model class for table "vehicle_request".
@@ -24,6 +25,15 @@ use Yii;
  */
 class VehicleRequest extends \yii\db\ActiveRecord
 {
+    const ROLE_STUDENT = 10;
+    const ROLE_TEACHER = 20;
+
+    const DUMMY_CREATOR = 1;
+
+    const STATUS_REQUEST = 0;
+    const STATUS_APPROVED = 10;
+    const STATUS_REJECT = -1;
+    const STATUS_REVOKE = -2;
     /**
      * {@inheritdoc}
      */
@@ -95,5 +105,18 @@ class VehicleRequest extends \yii\db\ActiveRecord
     public function getVehicle()
     {
         return $this->hasOne(Vehicle::class, ['id' => 'vehicle_id']);
+    }
+
+    public function getOwnerRequest()
+    {
+        if ($this->requested_role == 10) {
+            return $this->hasOne(Employee::class, ['requested_id' => 'employee_code']);
+        } elseif ($this->requested_role == $this->ROLE_TEACHER) {
+        }
+    }
+
+    public function getRequestAllStatus()
+    {
+        return [$this->STATUS_REQUEST => 'รออนุมัติ', $this->STATUS_APPROVED => 'อนุมัติ', $this->STATUS_REJECT => 'ไม่อนุมัติ', $this->STATUS_REVOKE => 'ยกเลิก'];
     }
 }

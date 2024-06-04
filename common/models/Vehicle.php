@@ -70,4 +70,9 @@ class Vehicle extends \yii\db\ActiveRecord
     {
         return $this->hasMany(VehicleRequest::class, ['vehicle_id' => 'id']);
     }
+
+    public function getVehicleType()
+    {
+        return [10 => 'มอเตอร์ไซค์', 20 => 'รถยนต์'];
+    }
 }

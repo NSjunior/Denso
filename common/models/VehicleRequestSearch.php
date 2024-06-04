@@ -11,6 +11,7 @@ use common\models\VehicleRequest;
  */
 class VehicleRequestSearch extends VehicleRequest
 {
+    public $employee_code;
     /**
      * {@inheritdoc}
      */
@@ -71,6 +72,13 @@ class VehicleRequestSearch extends VehicleRequest
             'updated_at' => $this->updated_at,
         ]);
 
+        if ($this->requested_id) {
+            $query->innerJoin('employee');
+            $query->andFilterWhere([
+                'employee.meta_key' => 'code',
+                'employee.mata_value' => $this->requested_id,
+            ]);
+        }
         return $dataProvider;
     }
 }

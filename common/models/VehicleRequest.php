@@ -107,15 +107,6 @@ class VehicleRequest extends \yii\db\ActiveRecord
         return $this->hasOne(Vehicle::class, ['id' => 'vehicle_id']);
     }
 
-    public function getOwnerRequest()
-    {
-        return $this->hasOne(Employee::class, ['requested_id' => 'employee_code']);
-        if ($this->requested_role == 10) {
-            return $this->hasOne(Employee::class, ['requested_id' => 'employee_code']);
-        } elseif ($this->requested_role == $this->ROLE_TEACHER) {
-        }
-    }
-
     public function getRequestAllStatus()
     {
         return [$this->STATUS_REQUEST => 'รออนุมัติ', $this->STATUS_APPROVED => 'อนุมัติ', $this->STATUS_REJECT => 'ไม่อนุมัติ', $this->STATUS_REVOKE => 'ยกเลิก'];

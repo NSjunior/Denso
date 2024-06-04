@@ -10,7 +10,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Vehicle;
 use common\models\Province;
+use stdClass;
 use yii\db\Query;
+use yii\debug\panels\DumpPanel;
 
 /**
  * VehicleRequestController implements the CRUD actions for VehicleRequest model.
@@ -44,6 +46,10 @@ class VehicleRequestController extends Controller
     {
         $searchModel = new VehicleRequestSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        // foreach ($searchModel as $data) {
+        //     $modelOwnerRequest = $this->getOwnerRequest($data->request_id, $data->request_role);
+        //     $data->request_id = $modelOwnerRequest->fullname;
+        // }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -59,16 +65,18 @@ class VehicleRequestController extends Controller
      */
     public function actionView($id)
     {
-        // $model = $this->findModel($id);
-        // dump($model);
-        // if ($model->requested_type == 10) {
-        //     $modelOwnerRequest = $this->hasOne(Employee::class, ['id' => 'employee_code']);
-        // } elseif ($model->requested_type == 20) {
-        //     $modelOwnerRequest = $this->hasOne(Employee::class, ['id' => 'employee_code']);
-        // }
-        // dump($modelOwnerRequest);
+        $model = $this->findModel($id);
+        $status = $this->getstatus($model->status);
+        $model->vehicle->type = $this->getTypeVehicle($model->vehicle->type);
+        $model->vehicle->province = $this->getProvinceName($model->vehicle->province);
+        $objOwnerRequest = $this->getOwnerRequest($model->requested_id, $model->requested_role);
+        $model->requested_role = $this->getRole($model->requested_role);
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'status' => $status,
+            'modelOwnerRequest' => $objOwnerRequest,
         ]);
     }
 
@@ -147,7 +155,9 @@ class VehicleRequestController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status = $model::STATUS_REVOKE;
+        $model->save();
 
         return $this->redirect(['index']);
     }
@@ -188,5 +198,63 @@ class VehicleRequestController extends Controller
             $out['results'] = ['id' => $id, 'text' => Province::find($id)->name];
         }
         return $out;
+    }
+
+    public function getstatus($status)
+    {
+        if ($status == 0) {
+            $arrstatus = ['warning', 'รออนุมัติ'];
+        } elseif ($status == 10) {
+            $arrstatus = ['success', 'อนุมัติ'];
+        } elseif ($status == -1) {
+            $arrstatus = ['danger', 'ไม่อนุมัติ'];
+        } else {
+            $arrstatus = ['secondary', 'ยกเลิก'];
+        }
+        return $arrstatus;
+    }
+
+    public function getTypeVehicle($typeId)
+    {
+        if ($typeId == 10) {
+            $typeName = 'มอเตอร์ไซค์';
+        } elseif ($typeId == 20) {
+            $typeName = 'รถยนต์';
+        }
+        return $typeName;
+    }
+
+    public function getProvinceName($provincId)
+    {
+        $provincName = Province::find()
+            ->select('name')
+            ->where(['id' => $provincId])
+            ->one();
+        return $provincName->name;
+    }
+
+    public function getOwnerRequest($ownerId, $role)
+    {
+        $modelOwnerRequest = [];
+        if ($role == VehicleRequest::ROLE_STUDENT) {
+            $modelOwnerRequest = Employee::findOne(['code' => $ownerId]);
+        } elseif ($role == VehicleRequest::ROLE_TEACHER) {
+            $modelOwnerRequest = Employee::findOne(['code' => $ownerId]);
+        } else {
+        }
+
+        return $modelOwnerRequest;
+    }
+    public function getRole($role)
+    {
+        if ($role == VehicleRequest::ROLE_STUDENT) {
+            $role = 'นักเรียน';
+        } elseif ($role == VehicleRequest::ROLE_TEACHER) {
+            $role = 'ครู';
+        } else {
+            $role = 'อื่น ๆ';
+        }
+
+        return $role;
     }
 }

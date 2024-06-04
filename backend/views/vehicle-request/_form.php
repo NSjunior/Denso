@@ -19,6 +19,8 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
 $dataList = Employee::find()->select(['code AS id', 'CONCAT(title, \' \',firstname, \' \', lastname, \' : \', code) AS text'])->andWhere(['company_id' => 1])->asArray()->all();
 $data = ArrayHelper::map($dataList, 'id', 'text');
 $url = \yii\helpers\Url::to(['/employee/list']);
+
+$dataCarType = $model->vehicle->getVehicleType();
 ?>
 
 <div class="row g-4 justify-content-center mb-3 employee-form">
@@ -42,7 +44,7 @@ $url = \yii\helpers\Url::to(['/employee/list']);
                                 'data' => $data,
                                 'size' => Select2::LARGE,
                                 'options' => [
-                                    'placeholder' => 'เลือกมนุษย์',
+                                    'placeholder' => 'เลือกเจ้าของรถ',
                                     'class' => 'form-select form-select-lg mb-3',
                                 ],
                                 'pluginOptions' => [

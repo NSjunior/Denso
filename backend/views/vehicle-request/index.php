@@ -14,6 +14,7 @@ use kartik\export\ExportMenu;
 $this->title = 'Vehicle Requests';
 $this->params['breadcrumbs'][] = $this->title;
 $this->disableTitleDisplay = true;
+dump($dataProvider);
 
 ?>
 <div class="vehicle-request-index">

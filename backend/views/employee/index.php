@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $this->disableTitleDisplay = true;
 
-
+dump($queryParams);
 $columns = [
     ['class' => 'kartik\grid\SerialColumn'],
     [

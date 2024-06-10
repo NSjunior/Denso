@@ -111,4 +111,8 @@ class VehicleRequest extends \yii\db\ActiveRecord
     {
         return [$this->STATUS_REQUEST => 'รออนุมัติ', $this->STATUS_APPROVED => 'อนุมัติ', $this->STATUS_REJECT => 'ไม่อนุมัติ', $this->STATUS_REVOKE => 'ยกเลิก'];
     }
+    public function getOwner($req_id, $req_role)
+    {
+        return Employee::findOne(['code' => $req_id]);
+    }
 }

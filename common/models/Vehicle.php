@@ -21,6 +21,8 @@ use Yii;
  */
 class Vehicle extends \yii\db\ActiveRecord
 {
+    const TYPE_CAR = 10;
+    const TYPE_MOTORCYCLE = 20;
     /**
      * {@inheritdoc}
      */
@@ -73,6 +75,6 @@ class Vehicle extends \yii\db\ActiveRecord
 
     public function getVehicleType()
     {
-        return [10 => 'มอเตอร์ไซค์', 20 => 'รถยนต์'];
+        return [Vehicle::TYPE_MOTORCYCLE => 'มอเตอร์ไซค์',  Vehicle::TYPE_CAR => 'รถยนต์'];
     }
 }

@@ -23,19 +23,33 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'requested_role') ?>
 
+    <?= $form->field($model, 'status') ?>
+
+    <?= $form->field($model, 'role') ?>
+
+    <?= $form->field($model, 'vehicleType') ?>
+
+    <?= $form->field($model, 'plate') ?>
+
     <?= $form->field($model, 'approver') ?>
 
-    <?php // echo $form->field($model, 'approved_at') ?>
+    <?php // echo $form->field($model, 'approved_at') 
+    ?>
 
-    <?php // echo $form->field($model, 'status') ?>
+    <?php // echo $form->field($model, 'status') 
+    ?>
 
-    <?php // echo $form->field($model, 'creator') ?>
+    <?php // echo $form->field($model, 'creator') 
+    ?>
 
-    <?php // echo $form->field($model, 'created_at') ?>
+    <?php // echo $form->field($model, 'created_at') 
+    ?>
 
-    <?php // echo $form->field($model, 'updater') ?>
+    <?php // echo $form->field($model, 'updater') 
+    ?>
 
-    <?php // echo $form->field($model, 'updated_at') ?>
+    <?php // echo $form->field($model, 'updated_at') 
+    ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

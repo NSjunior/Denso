@@ -5,13 +5,22 @@ namespace common\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\VehicleRequest;
+use common\models\Vehicle;
 
 /**
  * VehicleRequestSearch represents the model behind the search form of `common\models\VehicleRequest`.
  */
 class VehicleRequestSearch extends VehicleRequest
 {
-    public $employee_code;
+    public $fullname;
+    public $role;
+    public $statue;
+    public $plate;
+    public $province;
+    public $vehicleType;
+    public $approver;
+    public $requested_id;
+
     /**
      * {@inheritdoc}
      */
@@ -57,6 +66,7 @@ class VehicleRequestSearch extends VehicleRequest
             return $dataProvider;
         }
 
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -73,12 +83,37 @@ class VehicleRequestSearch extends VehicleRequest
         ]);
 
         if ($this->requested_id) {
-            $query->innerJoin('employee');
+            $query->innerJoinWith('employee');
             $query->andFilterWhere([
-                'employee.meta_key' => 'code',
-                'employee.mata_value' => $this->requested_id,
+                'employee.code' => 'requested_id',
+                'employee.fullname' => $this->fullname
+
             ]);
         }
+
+        if ($this->province) {
+            $query->joinWith('province');
+            $query->andFilterWhere([
+                'province.id' => 'province',
+                'province.name' => $this->province
+            ]);
+        }
+
+
+        // if ($this->fullname) {
+        //     $query->andFilterWhere([
+        //         'or',
+        //         ['like', 'firstname', $this->fullname],
+        //         ['like', 'lastname', $this->fullname],
+        //     ]);
+        // }
+
+
+        // $query->andFilterWhere(['ilike', 'request_id', $this->request_id])
+        //     ->andFilterWhere(['ilike', 'title', $this->title])
+        //     ->andFilterWhere(['ilike', 'firstname', $this->firstname])
+        //     ->andFilterWhere(['ilike', 'lastname', $this->lastname]);
+
         return $dataProvider;
     }
 }

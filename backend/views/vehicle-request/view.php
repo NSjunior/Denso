@@ -12,17 +12,20 @@ use yii\widgets\DetailView;
 $this->title = $modelOwnerRequest->fullname . " " . $modelOwnerRequest->code;
 $this->params['breadcrumbs'][] = ['label' => 'Vehicle Requests', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->disableTitleDisplay = true;
 \yii\web\YiiAsset::register($this);
-
-
 
 ?>
 
 
-
 <div class="row g-4">
     <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
-        <h2 class="fs-2 mb-2 me-2"><?php $modelOwnerRequest->fullname ?> <small class="text-body-secondary"><?php echo $modelOwnerRequest->code ?></small></h2>
+        <h2 class="fs-2 mb-2 me-2">
+            <?php echo $modelOwnerRequest->fullname ?>
+            <small class="text-body-secondary">
+                <?php echo $modelOwnerRequest->code ?>
+            </small>
+        </h2>
     </div>
     <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">

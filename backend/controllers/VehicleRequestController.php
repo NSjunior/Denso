@@ -10,7 +10,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Vehicle;
 use common\models\Province;
-use stdClass;
 use yii\db\Query;
 use yii\debug\panels\DumpPanel;
 
@@ -46,14 +45,17 @@ class VehicleRequestController extends Controller
     {
         $searchModel = new VehicleRequestSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        // foreach ($searchModel as $data) {
+
+        // foreach ($dataProvider as $data) {
         //     $modelOwnerRequest = $this->getOwnerRequest($data->request_id, $data->request_role);
         //     $data->request_id = $modelOwnerRequest->fullname;
         // }
 
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'queryParams' => $this->request->queryParams,
         ]);
     }
 
@@ -69,7 +71,7 @@ class VehicleRequestController extends Controller
         $status = $this->getstatus($model->status);
         $model->vehicle->type = $this->getTypeVehicle($model->vehicle->type);
         $model->vehicle->province = $this->getProvinceName($model->vehicle->province);
-        $objOwnerRequest = $this->getOwnerRequest($model->requested_id, $model->requested_role);
+        $objOwnerRequest = $model->getOwner($model->requested_id, $model->requested_role);
         $model->requested_role = $this->getRole($model->requested_role);
 
 
@@ -135,13 +137,14 @@ class VehicleRequestController extends Controller
     {
         $model = $this->findModel($id);
         $modelVehicle = $model->vehicle;
-
+        $objOwnerRequest = $model->getOwner($model->requested_id, $model->requested_role);
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'modelOwnerRequest' => $objOwnerRequest,
             'modelVehicle' => $modelVehicle
         ]);
     }
@@ -158,7 +161,6 @@ class VehicleRequestController extends Controller
         $model = $this->findModel($id);
         $model->status = $model::STATUS_REVOKE;
         $model->save();
-
         return $this->redirect(['index']);
     }
 
@@ -233,18 +235,18 @@ class VehicleRequestController extends Controller
         return $provincName->name;
     }
 
-    public function getOwnerRequest($ownerId, $role)
-    {
-        $modelOwnerRequest = [];
-        if ($role == VehicleRequest::ROLE_STUDENT) {
-            $modelOwnerRequest = Employee::findOne(['code' => $ownerId]);
-        } elseif ($role == VehicleRequest::ROLE_TEACHER) {
-            $modelOwnerRequest = Employee::findOne(['code' => $ownerId]);
-        } else {
-        }
+    // public function getOwnerRequest($ownerId, $role)
+    // {
+    //     $modelOwnerRequest = [];
+    //     if ($role == VehicleRequest::ROLE_STUDENT) {
+    //         $modelOwnerRequest = Employee::findOne(['code' => $ownerId]);
+    //     } elseif ($role == VehicleRequest::ROLE_TEACHER) {
+    //         $modelOwnerRequest = Employee::findOne(['code' => $ownerId]);
+    //     } else {
+    //     }
 
-        return $modelOwnerRequest;
-    }
+    //     return $modelOwnerRequest;
+    // }
     public function getRole($role)
     {
         if ($role == VehicleRequest::ROLE_STUDENT) {

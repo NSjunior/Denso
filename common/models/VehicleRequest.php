@@ -103,4 +103,17 @@ class VehicleRequest extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Vehicle::class, ['id' => 'vehicle_id']);
     }
+
+    public function getRequester()
+    {
+        return $this->hasOne(Employee::class, ['id' => 'requested_id']);
+    }
+
+    public static function getAllRoles()
+    {
+        return [
+            self::ROLE_STUDENT => 'นักเรียน',
+            self::ROLE_TEACHER => 'บุคลากร',
+        ];
+    }
 }

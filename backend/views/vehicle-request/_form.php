@@ -12,7 +12,7 @@ use common\models\Province;
 /** @var common\models\VehicleRequest $model */
 /** @var yii\widgets\ActiveForm $form */
 
-$dataList = Employee::find()->select(['code AS id', 'CONCAT(title, \' \',firstname, \' \', lastname, \' : \', code) AS text'])->andWhere(['company_id' => 1, 'id' => $model->requested_id])->asArray()->all();
+$dataList = Employee::find()->select(['id', 'CONCAT(title, \' \',firstname, \' \', lastname, \' : \', code) AS text'])->andWhere(['company_id' => 1, 'id' => $model->requested_id])->asArray()->all();
 $data = ArrayHelper::map($dataList, 'id', 'text');
 $dataurl = \yii\helpers\Url::to(['/employee/list']);
 
@@ -111,12 +111,12 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                         </div>
                     </div>
                 </div>
-                <div class="row mb-1">               
+                <div class="row mb-1">
                     <div class="col-md">
                         <?php
                         echo $form->field($modelVehicle, 'type', [
                             'inputOptions' => [
-                                
+
                                 'id' => 'type',
                                 'placeholder' => 'ประเภทรถยนต์',
                                 'maxLength' => 20,
@@ -135,58 +135,58 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                             'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
                         ])->label('ยี่ห้อรถ')->hint('') ?>
                     </div>
-                    
+
                 </div>
                 <div class="row mb-1">
-                  
-                        <div class="col-md">
-                            <?php
-                            echo $form->field($modelVehicle, 'model', [
-                                'inputOptions' => [
-                                    'id' => 'model',
-                                    'placeholder' => 'รุ่นรถ',
-                                    'maxLength' => 20,
-                                ],
-                                'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                            ])->label('รุ่นรถ')->hint('') ?>
-                        </div>
-                        <div class="col-md">
-                            <?php
-                            echo $form->field($modelVehicle, 'color', [
-                                'inputOptions' => [
-                                    'id' => 'color',
-                                    'placeholder' => 'รุ่นรถ',
-                                    'maxLength' => 20,
-                                ],
-                                'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                            ])->label('สีรถ')->hint('') ?>
-                        </div>
+
+                    <div class="col-md">
+                        <?php
+                        echo $form->field($modelVehicle, 'model', [
+                            'inputOptions' => [
+                                'id' => 'model',
+                                'placeholder' => 'รุ่นรถ',
+                                'maxLength' => 20,
+                            ],
+                            'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                        ])->label('รุ่นรถ')->hint('') ?>
+                    </div>
+                    <div class="col-md">
+                        <?php
+                        echo $form->field($modelVehicle, 'color', [
+                            'inputOptions' => [
+                                'id' => 'color',
+                                'placeholder' => 'รุ่นรถ',
+                                'maxLength' => 20,
+                            ],
+                            'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                        ])->label('สีรถ')->hint('') ?>
+                    </div>
                 </div>
                 <div class="row mb-1">
                     <div class="col-md">
                         <?php
-                            echo $form->field($modelVehicle, 'image', [
-                                'inputOptions' => [
-                                    'id' => 'image',
-                                    'placeholder' => 'รูปรถ',
-                                    'maxLength' => 20,
-                                ],
-                                'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                            ])->label('รูปรถ')->hint('') ?>
+                        echo $form->field($modelVehicle, 'image', [
+                            'inputOptions' => [
+                                'id' => 'image',
+                                'placeholder' => 'รูปรถ',
+                                'maxLength' => 20,
+                            ],
+                            'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                        ])->label('รูปรถ')->hint('') ?>
                     </div>
                     <div class="col-md">
                         <?php
-                            echo $form->field($modelVehicle, 'plate_image', [
-                                'inputOptions' => [
-                                    'id' => 'plate_image',
-                                    'placeholder' => 'รูปทะเบียน',
-                                    'maxLength' => 20,
-                                ],
-                                'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                            ])->label('รูปทะเบียน')->hint('') ?>
+                        echo $form->field($modelVehicle, 'plate_image', [
+                            'inputOptions' => [
+                                'id' => 'plate_image',
+                                'placeholder' => 'รูปทะเบียน',
+                                'maxLength' => 20,
+                            ],
+                            'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                        ])->label('รูปทะเบียน')->hint('') ?>
                     </div>
                 </div>
-              
+
             </div>
 
             <div class="card-footer p-4">

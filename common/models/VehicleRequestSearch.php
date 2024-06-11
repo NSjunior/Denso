@@ -5,12 +5,20 @@ namespace common\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\VehicleRequest;
+use common\models\Vehicle;
 
 /**
  * VehicleRequestSearch represents the model behind the search form of `common\models\VehicleRequest`.
  */
 class VehicleRequestSearch extends VehicleRequest
 {
+    public $requester;
+    public $plate;
+    public $province;
+    public $vehicleType;
+    public $requested_id;
+    public $status;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +26,7 @@ class VehicleRequestSearch extends VehicleRequest
     {
         return [
             [['id', 'vehicle_id', 'requested_id', 'requested_role', 'approver', 'status', 'creator', 'updater'], 'integer'],
-            [['approved_at', 'created_at', 'updated_at'], 'safe'],
+            [['approved_at', 'created_at', 'updated_at', 'requester', 'requested_role', 'requester', 'approver', 'plate', 'vehicleType', 'status'], 'safe'],
         ];
     }
 
@@ -47,6 +55,34 @@ class VehicleRequestSearch extends VehicleRequest
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        $dataProvider->sort->attributes['requester'] = [
+            'asc' => ['employee.firstname' => SORT_ASC],
+            'desc' => ['employee.firstname' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['plate'] = [
+            'asc' => ['vehicle.plate' => SORT_ASC],
+            'desc' => ['vehicle.plate' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['requested_role'] = [
+            'asc' => ['vehicle_request.requested_role' => SORT_ASC],
+            'desc' => ['vehicle_request.requested_role' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['vehicleType'] = [
+            'asc' => ['vehicle.type' => SORT_ASC],
+            'desc' => ['vehicle.type' => SORT_DESC]
+        ];
+
+        $dataProvider->sort->attributes['creator'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC]
+        ];
+
+        $query->innerJoinWith('vehicle');
+        $query->innerJoinWith('requester');
+        $query->innerJoinWith('creatorInfo');
+
 
         $this->load($params);
 
@@ -56,6 +92,7 @@ class VehicleRequestSearch extends VehicleRequest
             return $dataProvider;
         }
 
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -64,12 +101,64 @@ class VehicleRequestSearch extends VehicleRequest
             'requested_role' => $this->requested_role,
             'approver' => $this->approver,
             'approved_at' => $this->approved_at,
-            'status' => $this->status,
+            'vehicle_request.status' => $this->status,
             'creator' => $this->creator,
             'created_at' => $this->created_at,
             'updater' => $this->updater,
             'updated_at' => $this->updated_at,
         ]);
+
+        if ($this->requested_id) {
+            $query->innerJoinWith('requester');
+            $query->andFilterWhere([
+                'employee.id' => $this->requested_id
+
+            ]);
+        }
+
+        if ($this->plate) {
+            $query->innerJoinWith('vehicle');
+            $query->andFilterWhere([
+                'vehicle.id' => $this->vehicle_id
+
+            ]);
+        }
+
+        if ($this->requester) {
+            $query->andFilterWhere([
+                'or',
+                ['like', 'firstname', $this->requester],
+                ['like', 'lastname', $this->requester],
+            ]);
+        }
+
+        if ($this->plate) {
+            $query->andFilterWhere([
+                'or',
+                ['like', 'plate', $this->plate],
+            ]);
+        }
+
+        if ($this->vehicleType) {
+            $query->andFilterWhere([
+                'vehicle.type' => $this->vehicleType
+            ]);
+        }
+        if ($this->creator) {
+            $query->andFilterWhere([
+                'or',
+                ['like', 'firstname', $this->creator],
+                ['like', 'lastname', $this->creator],
+            ]);
+        }
+
+
+
+
+        // $query->andFilterWhere(['ilike', 'request_id', $this->request_id])
+        //     ->andFilterWhere(['ilike', 'title', $this->title])
+        //     ->andFilterWhere(['ilike', 'firstname', $this->firstname])
+        //     ->andFilterWhere(['ilike', 'lastname', $this->lastname]);
 
         return $dataProvider;
     }

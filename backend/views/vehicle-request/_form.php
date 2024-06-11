@@ -7,16 +7,16 @@ use kartik\select2\Select2;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
 use common\models\Province;
+use kartik\widgets\FileInput;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var common\models\VehicleRequest $model */
 /** @var yii\widgets\ActiveForm $form */
 
-$dataList = Employee::find()->select(['code AS id', 'CONCAT(title, \' \',firstname, \' \', lastname, \' : \', code) AS text'])->andWhere(['company_id' => 1, 'id' => $model->requested_id])->asArray()->all();
+$dataList = Employee::find()->select(['id', 'CONCAT(title, \' \',firstname, \' \', lastname, \' : \', code) AS text'])->andWhere(['company_id' => 1, 'id' => $model->requested_id])->asArray()->all();
 $data = ArrayHelper::map($dataList, 'id', 'text');
 $dataurl = \yii\helpers\Url::to(['/employee/list']);
-
-$dataCarType = ['10' => 'มอเตอร์ไซค์', '20' => 'รถยนต์'];
 
 $provinceList = Province::find()->select(['id', 'name AS text'])->andWhere(['id' => $modelVehicle->province])->asArray()->all();
 $provinceData = ArrayHelper::map($provinceList, 'id', 'text');
@@ -71,19 +71,6 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                 </div>
                 <div class="row mb-1">
                     <div class="col-md">
-                        <?php echo $form->field($modelVehicle, 'type', [
-                            'inputOptions' => [
-                                'id' => 'type',
-                                'placeholder' => 'เลือกประเภทรถ',
-                            ],
-                            'template' => '<div class="form-floating ">{input}{label}{error}{hint}</div>',
-                        ])->dropDownList($dataCarType, [
-                            'class' => 'form-select pt-4',
-                            'style' => 'line-height:25px',
-                            'prompt' => 'ประเภทรถ',
-                        ])->label('ประเภทรถ') ?>
-                    </div>
-                    <div class="col-md">
                         <?php
                         echo $form->field($modelVehicle, 'plate', [
                             'inputOptions' => [
@@ -129,16 +116,17 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                 </div>
                 <div class="row mb-1">
                     <div class="col-md">
-                        <?php
-                        echo $form->field($modelVehicle, 'type', [
+                        <?php echo $form->field($modelVehicle, 'type', [
                             'inputOptions' => [
-
                                 'id' => 'type',
-                                'placeholder' => 'ประเภทรถยนต์',
-                                'maxLength' => 20,
+                                'placeholder' => 'เลือกประเภทรถ',
                             ],
-                            'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                        ])->label('ประเภทยานพาหนะ')->hint('') ?>
+                            'template' => '<div class="form-floating ">{input}{label}{error}{hint}</div>',
+                        ])->dropDownList($modelVehicle->getVehicleType(), [
+                            'class' => 'form-select pt-4',
+                            'style' => 'line-height:25px',
+                            'prompt' => 'ประเภทรถ',
+                        ])->label('ประเภทรถ') ?>
                     </div>
                     <div class="col-md">
                         <?php
@@ -202,29 +190,6 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                         ])->label('รูปทะเบียน')->hint('') ?>
                     </div>
                 </div>
-
-            </div>
-            <div class="col-md">
-                <?php
-                echo $form->field($modelVehicle, 'model', [
-                    'inputOptions' => [
-                        'class' => 'form-control',
-                        'id' => 'model',
-                        'placeholder' => 'รุ่น',
-                    ],
-                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                ])->label('รุ่น') ?>
-            </div>
-            <div class="col-md">
-                <?php
-                echo $form->field($modelVehicle, 'color', [
-                    'inputOptions' => [
-                        'class' => 'form-control',
-                        'id' => 'color',
-                        'placeholder' => 'สี',
-                    ],
-                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                ])->label('สี') ?>
             </div>
 
             <div class="card-footer p-4">

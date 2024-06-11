@@ -43,9 +43,11 @@ class VehicleRequestController extends Controller
     {
         $searchModel = new VehicleRequestSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $queryParams = $this->request->queryParams;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
+            'queryParams' => $queryParams,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -58,8 +60,18 @@ class VehicleRequestController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $status = $this->getstatus($model->status);
+        $model->vehicle->type = $this->getTypeVehicle($model->vehicle->type);
+        $model->vehicle->province = $this->getProvinceName($model->vehicle->province);
+        $objOwnerRequest = $model->getOwnerRequest($model->requested_id, $model->requested_role);
+        $model->requested_role = $this->getRole($model->requested_role);
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'status' => $status,
+            'modelOwnerRequest' => $objOwnerRequest,
         ]);
     }
 
@@ -72,30 +84,29 @@ class VehicleRequestController extends Controller
     {
         $model = new VehicleRequest();
         $modelVehicle = new Vehicle();
-        if ($this->request->isPost) {           
+        if ($this->request->isPost) {
             $post = $this->request->post();
-            if($modelVehicle->load($post) && $model->load($post)){
-                if($modelVehicle->save()){
+            if ($modelVehicle->load($post) && $model->load($post)) {
+                if ($modelVehicle->save()) {
                     $model->vehicle_id = $modelVehicle->id;
                     $model->requested_role = VehicleRequest::ROLE_STUDENT;
-                    $model->creator = VehicleRequest::USER_ID;
+                    $model->creator = VehicleRequest::DUMMY_CREATOR;
                     $model->status = VehicleRequest::STATUS_REQUEST;
-                    if($model->save()){
+                    if ($model->save()) {
                         return $this->redirect(['view', 'id' => $model->id]);
-                    }else{
+                    } else {
                         dump($model->errors);
                         exit;
                     }
-                }else{
+                } else {
                     dump($modelVehicle->errors);
                     exit;
                 }
-            }else{
+            } else {
                 dump($model->errors);
                 dump($modelVehicle->errors);
                 exit;
             }
-
         } else {
             $model->loadDefaultValues();
         }
@@ -112,17 +123,40 @@ class VehicleRequestController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $modelVehicle = $model->vehicle;
+        $objOwnerRequest = $model->getOwnerRequest($model->requested_id, $model->requested_role);
+        if ($this->request->isPost) {
+            $post = $this->request->post();
+            if ($modelVehicle->load($post) && $model->load($post)) {
+                if ($modelVehicle->save()) {
+                    $model->vehicle_id = $modelVehicle->id;
+                    $model->creator = VehicleRequest::DUMMY_CREATOR;
+                    if ($model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    } else {
+                        dump($model->errors);
+                        exit;
+                    }
+                } else {
+                    dump($modelVehicle->errors);
+                    exit;
+                }
+            } else {
+                dump($model->errors);
+                dump($modelVehicle->errors);
+                exit;
+            }
+        } else {
+            $model->loadDefaultValues();
         }
-
         return $this->render('update', [
             'model' => $model,
+            'objOwnerRequest' => $objOwnerRequest,
+            'modelVehicle' => $modelVehicle
         ]);
     }
 
@@ -135,8 +169,9 @@ class VehicleRequestController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $model->status = VehicleRequest::STATUS_REVOKE;
+        $model->save();
         return $this->redirect(['index']);
     }
 
@@ -177,7 +212,49 @@ class VehicleRequestController extends Controller
         }
         return $out;
     }
+    public function getstatus($status)
+    {
+        if ($status == 0) {
+            $arrstatus = ['warning', 'รออนุมัติ'];
+        } elseif ($status == 10) {
+            $arrstatus = ['success', 'อนุมัติ'];
+        } elseif ($status == -1) {
+            $arrstatus = ['danger', 'ไม่อนุมัติ'];
+        } else {
+            $arrstatus = ['secondary', 'ยกเลิก'];
+        }
+        return $arrstatus;
+    }
 
+    public function getTypeVehicle($typeId)
+    {
+        if ($typeId == 10) {
+            $typeName = 'มอเตอร์ไซค์';
+        } elseif ($typeId == 20) {
+            $typeName = 'รถยนต์';
+        }
+        return $typeName;
+    }
 
+    public function getProvinceName($provincId)
+    {
+        $provincName = Province::find()
+            ->select('name')
+            ->where(['id' => $provincId])
+            ->one();
+        return $provincName->name;
+    }
 
+    public function getRole($role)
+    {
+        if ($role == VehicleRequest::ROLE_STUDENT) {
+            $role = 'นักเรียน';
+        } elseif ($role == VehicleRequest::ROLE_TEACHER) {
+            $role = 'ครู';
+        } else {
+            $role = 'อื่น ๆ';
+        }
+
+        return $role;
+    }
 }

@@ -1,46 +1,197 @@
 <?php
 
+use common\models\Employee;
+use common\models\Vehicle;
+use common\models\VehicleRequest;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+
 
 /** @var yii\web\View $this */
 /** @var common\models\VehicleRequest $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Vehicle Requests', 'url' => ['index']];
+$this->title = $modelOwnerRequest->fullname . " " . $modelOwnerRequest->code;
+$this->params['breadcrumbs'][] = ['label' => 'คำร้องขอสติ้กเกอร์', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->disableTitleDisplay = true;
 \yii\web\YiiAsset::register($this);
-?>
-<div class="vehicle-request-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'vehicle_id',
-            'requested_id',
-            'requested_role',
-            'approver',
-            'approved_at',
-            'status',
-            'creator',
-            'created_at',
-            'updater',
-            'updated_at',
+$updateButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-warning text-white shadow p-2 mb-2 rounded']) : '';
+$deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
+    'Delete',
+    ['delete', 'id' => $model->id],
+    [
+        'data' => [
+            'method' => 'post',
+            'confirm' => 'คุณต้องการยกเลิกการขอสติ้กเกอร์?',
         ],
-    ]) ?>
+        'class' => 'btn btn-danger text-white shadow p-2 mb-2 rounded'
+    ],
+) : '';
+?>
+<style>
+    .license-plate {
+        width: 300px;
+        height: 150px;
+        border: 3px solid black;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+    }
+</style>
 
+
+<div class="row g-4">
+    <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
+        <h2 class="fs-2 mb-2 me-2">
+            <?php echo $modelOwnerRequest->fullname ?>
+            <small class="text-body-secondary">
+                <?php echo $modelOwnerRequest->code ?>
+            </small>
+        </h2>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <?php echo $updateButton  ?>
+            <?php echo $deleteButton ?>
+        </div>
+    </div>
 </div>
+
+<div class="d-flex align-content-around flex-wrap row ">
+    <div class="row g-4">
+        <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
+            <div class="card mb-4 h-100">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <div class="text-body-secondary text-start">
+                                <div class="fs-4 fw-semibold"><i class="fa-regular fa-square-info fa-xl"></i> ข้อมูลผู้ขอรับสติ้กเกอร์</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <table class="table table-striped table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'ชื่อผู้ขอ' ?></th>
+                                        <td><?php echo $modelOwnerRequest->fullname ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'รหัสประจำตัวผู้ขอ' ?></th>
+                                        <td><?php echo $modelOwnerRequest->code ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'บทบาท' ?></th>
+                                        <td><?php echo $model->requested_role ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'สถานะ' ?></th>
+                                        <td>
+                                            <div> <span class="badge text-bg-<?php echo $status[0] ?> text-white fw-normal"><?php echo $status[1] ?> </span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'ผู้อนุมัติ' ?></th>
+                                        <td><?php echo ($model->approver) ? $model->approver : '-'; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'วันที่สร้าง' ?></th>
+                                        <td><?php echo $model->created_at ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-sm-6 col-xl-6 col-xxl-6 ">
+            <div class="card mb-4 h-100">
+                <di class="card-body">
+                    <div class="row g-4">
+                        <div class="col-12 mb-2">
+                            <div class="text-body-secondary text-start">
+                                <div class="fs-4 fw-semibold"><i class="fa-regular fa-car fa-xl"></i> ข้อมูลรถ</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="text-center fw-bold">
+                                <h4 class="fw-bold">ป้ายทะเบียน</h4>
+                            </div>
+                        </div>
+                        <div class="row g-4 d-flex justify-content-center align-items-center">
+                            <div class="license-plate text-center flex-fill">
+                                <div class="fs-3 fw-bold"><?php echo $model->vehicle->plate ?></div>
+                                <div class="fs-4"><?php echo $model->vehicle->province ?></div>
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'ประเภทรถ' ?></th>
+                                        <td><?php echo $model->vehicle->type ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'ยี่ห้อ' ?></th>
+                                        <td><?php echo $model->vehicle->brand ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'รุ่นรถ' ?></th>
+                                        <td><?php echo $model->vehicle->model ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"> <?php echo 'รถสี' ?></th>
+                                        <td><?php echo $model->vehicle->color ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-6 col-xxl-6 ">
+            <div class="card mb-4 h-100">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <div class="text-body-secondary text-start">
+                                <div class="fs-4 fw-semibold"><i class="fa-regular fa-tag fa-xl"></i> รูปแผ่นป้ายทะเบียน</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <img src="https://www.smk.co.th/upload/news/637474528097862295_main_1717_pic412_2.jpg" class="card-img-top">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
+            <div class="card mb-4 h-100">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <div class="text-body-secondary text-start">
+                                <div class="fs-4 fw-semibold"><i class="fa-regular fa-car-side fa-xl"></i> ภาพด้านข้างรถ</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <img src="https://www.volvocars.com/images/v/-/media/market-assets/australia/applications/localpages/images/model-lineup/my24-xc40-recharge-single.png?h=1007&iar=0&w=1342" class="card-img-top">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

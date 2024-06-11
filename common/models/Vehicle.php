@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "vehicle".
  *
@@ -21,6 +22,8 @@ use Yii;
  */
 class Vehicle extends \yii\db\ActiveRecord
 {
+    const TYPE_CAR = 10;
+    const TYPE_MOTORCYCLE = 20;
     /**
      * {@inheritdoc}
      */
@@ -69,5 +72,10 @@ class Vehicle extends \yii\db\ActiveRecord
     public function getVehicleRequests()
     {
         return $this->hasMany(VehicleRequest::class, ['vehicle_id' => 'id']);
+    }
+
+    public static function getVehicleType()
+    {
+        return [self::TYPE_MOTORCYCLE => 'มอเตอร์ไซค์',  self::TYPE_CAR => 'รถยนต์'];
     }
 }

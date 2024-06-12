@@ -177,9 +177,4 @@ class VehicleRequestController extends Controller
         }
         return $out;
     }
-
-    public function actionPaper($id)
-    {
-        echo 'Paper Here';
-    }
 }

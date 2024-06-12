@@ -1,0 +1,217 @@
+@media print {
+  .body {
+    font-family: "thsarabun";
+    font-size: 18px;
+    line-height: 5px;
+  }
+
+  body {
+    font-family: "thsarabun";
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  p {
+    font-family: "thsarabun";
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  .barcode {
+    padding: 1.5mm;
+    margin: 0;
+    vertical-align: top;
+  }
+  .barcodecell {
+    text-align: right;
+    vertical-align: middle;
+    float: right;
+    width: 76%;
+  }
+
+  .column {
+    float: left;
+    width: 24%;
+  }
+
+  .column5 {
+    float: left;
+    width: 75%;
+  }
+
+  .column4 {
+    float: left;
+    width: 85%;
+  }
+
+  .column3 {
+    float: left;
+    width: 15%;
+  }
+
+  .column1 {
+    float: left;
+    width: 50%;
+  }
+
+  .column2 {
+    float: right;
+    width: 23%;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+
+  h1 {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 15px;
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 10px;
+    font-weight: bold;
+  }
+
+  h3 {
+    font-size: 26px;
+    line-height: 10px;
+    font-weight: bold;
+  }
+
+  h4 {
+    font-size: 22px;
+    line-height: 10px;
+    font-weight: bold;
+  }
+  h5 {
+    font-size: 20px;
+    line-height: 25px;
+    font-weight: bold;
+  }
+
+  .table th {
+    text-align: center;
+    height: 35px;
+    font-weight: normal;
+  }
+
+  .table td {
+    text-align: center;
+    height: 35px;
+  }
+
+  .bg-head th {
+    background-color: #ecf0f1;
+    text-align: center;
+  }
+
+  .header {
+    padding-top: 1px;
+  }
+
+  th.head-cell {
+    background-color: #ecf0f1;
+  }
+
+  .dotted {
+    border-bottom: 3px dotted;
+    float: left;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .fill-form,
+  .fill-form td,
+  .fill-form tr {
+    margin: 0;
+    padding: 0;
+    font-size: 0.9em;
+  }
+
+  .fill-form {
+    padding-bottom: 5px;
+  }
+
+  .header-section {
+    background-color: #dfdfdf;
+    padding: 3px;
+    /*margin-bottom: 7px;*/
+  }
+
+  .section-info {
+    margin: 10px;
+    padding: 0;
+    font-size: 0.9em;
+  }
+
+  .table-border {
+    border: 1px solid #999;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .table-border th,
+  .table-border td {
+    border: 1px solid #999;
+    font-size: 0.8em;
+  }
+
+  .table-border th {
+    text-align: center;
+  }
+
+  .section-info table {
+    width: 100%;
+  }
+
+  .small,
+  table.small,
+  table.small td {
+    font-size: 9px;
+    line-height: 5px;
+  }
+
+  table.small tbody tr td,
+  table.small thead tr th {
+    margin: 0;
+    padding: 0 2px 0 2px;
+  }
+
+  .box {
+    border: 2px solid black;
+  }
+
+  dl {
+    margin: 0px 0 10px -10px;
+    padding: 0px;
+  }
+
+  dl dt {
+    /* background: #5f9be3;
+		color: #fff; */
+    float: left;
+    font-weight: normal;
+    padding: 3px 0 0 0;
+    margin: 0 0 0 10px;
+  }
+
+  dl dd {
+    padding: 0px;
+    margin: 0px;
+    /* margin-right: 20px; */
+    position: absolute;
+    float: left;
+    /* background: #ff9be1; */
+    text-align: center;
+    border-bottom: 1.2px dotted black;
+    border-spacing: 0px;
+    box-sizing: none;
+    padding-bottom: -2px;
+  }
+}

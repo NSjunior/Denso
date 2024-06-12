@@ -41,8 +41,9 @@ class Vehicle extends \yii\db\ActiveRecord
             [['plate', 'province', 'type', 'brand', 'model', 'color'], 'required'],
             [['type'], 'default', 'value' => null],
             [['type'], 'integer'],
-            [['plate', 'province', 'brand', 'model', 'color', 'image', 'plate_image'], 'string', 'max' => 255],
+            [['plate', 'province', 'brand', 'model', 'color'], 'string', 'max' => 255],
             [['plate', 'province'], 'unique', 'targetAttribute' => ['plate', 'province']],
+            [['image', 'plate_image'], 'file', 'extensions' => 'jpeg,jpg,png', 'on' => 'update', 'skipOnEmpty' => true],
         ];
     }
 

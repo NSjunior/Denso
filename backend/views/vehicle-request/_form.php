@@ -7,7 +7,7 @@ use kartik\select2\Select2;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
 use common\models\Province;
-use kartik\widgets\FileInput;
+use kartik\file\FileInput;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
@@ -23,6 +23,14 @@ $provinceData = ArrayHelper::map($provinceList, 'id', 'text');
 $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
 
 ?>
+
+<style>
+    img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+</style>
 <div class="row g-4 justify-content-center mb-3 employee-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="col-lg-12 col-md-12">
@@ -166,38 +174,62 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                         ])->label('สีรถ')->hint('') ?>
                     </div>
                 </div>
-                <div class="row mb-1">
+                <div class="row mb-1 ">
                     <div class="col-md">
                         <?php
-                        echo $form->field($modelVehicle, 'image', [
-                            'inputOptions' => [
-                                'id' => 'image',
-                                'placeholder' => 'รูปรถ',
-                                'maxLength' => 20,
+                        echo $form->field($modelVehicle, 'plate_image')->widget(FileInput::className(), [
+                            'language' => 'th',
+                            'options' => [
+                                'multiple' => false,
+                                'accept' => 'image/*'
                             ],
-                            'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                        ])->label('รูปรถ')->hint('') ?>
+                            'pluginOptions' => [
+                                'initialPreviewShowDelete' => false,
+                                'initialPreview' => [
+                                    $modelVehicle->plate_image == "" ? $modelVehicle->plate_image : Html::img($modelVehicle->plate_image),
+                                ],
+                                'allowedFileExtensions' => ['jpeg', 'jpg', 'png'],
+                                'showRotate' => false,
+                                'showCancel' => false,
+                                'showRemove' => false,
+                                'showUpload' => false,
+                                'browseLabel' => 'เลือกไฟล์'
+                            ],
+                        ])->label('รูปป้ายทะเบียนรถ');
+                        ?>
                     </div>
                     <div class="col-md">
                         <?php
-                        echo $form->field($modelVehicle, 'plate_image', [
-                            'inputOptions' => [
-                                'id' => 'plate_image',
-                                'placeholder' => 'รูปทะเบียน',
-                                'maxLength' => 20,
+                        echo $form->field($modelVehicle, 'image')->widget(FileInput::className(), [
+                            'language' => 'th',
+                            'options' => [
+                                'multiple' => false,
+                                'accept' => 'image/*'
                             ],
-                            'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
-                        ])->label('รูปทะเบียน')->hint('') ?>
+                            'pluginOptions' => [
+                                'initialPreviewShowDelete' => false,
+                                'initialPreviewShowRotated' => false,
+                                'initialPreview' => [
+                                    $modelVehicle->image == "" ? $modelVehicle->image  : [Html::img($modelVehicle->image)],
+                                ],
+                                'allowedFileExtensions' => ['jpeg', 'jpg', 'png'],
+                                'showCancel' => false,
+                                'showRemove' => false,
+                                'showUpload' => false,
+                                'browseLabel' => 'เลือกไฟล์'
+                            ],
+                        ])->label('รูปด้านข้างรถ');
+                        ?>
                     </div>
                 </div>
+
             </div>
 
             <div class="card-footer p-4">
                 <div class="row">
                     <div class="col-12 col-md-6 ">
-
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6 ">
                         <?php echo Html::submitButton($model->isNewRecord ? 'บันทึก' : 'อัพเดทข้อมูล', ['class' => 'btn btn-brand btn-lg px-4 float-end', 'name' => 'login-button']) ?>
                     </div>
                 </div>

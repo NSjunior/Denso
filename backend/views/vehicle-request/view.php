@@ -15,9 +15,9 @@ $this->params['breadcrumbs'][] = ['label' => 'คำร้องขอสติ�
 $this->params['breadcrumbs'][] = $this->title;
 $this->disableTitleDisplay = true;
 \yii\web\YiiAsset::register($this);
-$updateButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-warning text-white shadow p-2 mb-2 rounded']) : '';
+$updateButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a('แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-warning text-white shadow p-2 mb-2 rounded']) : '';
 $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
-    'Delete',
+    'ยกเลิก',
     ['delete', 'id' => $model->id],
     [
         'data' => [
@@ -39,6 +39,12 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
         justify-content: center;
         align-items: center;
         background-color: white;
+    }
+
+    img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
     }
 </style>
 
@@ -62,6 +68,7 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
 
 <div class="d-flex align-content-around flex-wrap row ">
     <div class="row g-4">
+
         <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
             <div class="card mb-4 h-100">
                 <div class="card-body">
@@ -113,7 +120,7 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
 
         <div class="col-12 col-sm-6 col-xl-6 col-xxl-6 ">
             <div class="card mb-4 h-100">
-                <di class="card-body">
+                <div class="card-body">
                     <div class="row g-4">
                         <div class="col-12 mb-2">
                             <div class="text-body-secondary text-start">
@@ -147,13 +154,14 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                                         <td><?php echo $model->vehicle->model ?></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row"> <?php echo 'รถสี' ?></th>
+                                        <th scope="row"> <?php echo 'สีรถ' ?></th>
                                         <td><?php echo $model->vehicle->color ?></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
 
@@ -169,7 +177,9 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                     </div>
                     <div class="row">
                         <div class="col-12 mb-2">
-                            <img src="https://www.smk.co.th/upload/news/637474528097862295_main_1717_pic412_2.jpg" class="card-img-top">
+                            <div class="card-img-top">
+                                <img src='<?php echo $model->vehicle->plate_image ?>' class="rounded">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -188,10 +198,13 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                     </div>
                     <div class="row">
                         <div class="col-12 mb-2">
-                            <img src="https://www.volvocars.com/images/v/-/media/market-assets/australia/applications/localpages/images/model-lineup/my24-xc40-recharge-single.png?h=1007&iar=0&w=1342" class="card-img-top">
+                            <div class="card-img-top">
+                                <img src='<?php echo $model->vehicle->image ?>' class="rounded">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>

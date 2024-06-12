@@ -10,6 +10,9 @@ use yii\filters\VerbFilter;
 use common\models\Vehicle;
 use common\models\Province;
 use yii\db\Query;
+use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
+use yii\base\ErrorException;
 
 /**
  * VehicleRequestController implements the CRUD actions for VehicleRequest model.
@@ -67,6 +70,10 @@ class VehicleRequestController extends Controller
         $objOwnerRequest = $model->getOwnerRequest($model->requested_id, $model->requested_role);
         $model->requested_role = $this->getRole($model->requested_role);
 
+        $path = "/uploads/vehicle/";
+        $model->vehicle->plate_image = $path . $model->vehicle->plate_image;
+        $model->vehicle->image = $path . $model->vehicle->image;
+
 
         return $this->render('view', [
             'model' => $model,
@@ -86,12 +93,34 @@ class VehicleRequestController extends Controller
         $modelVehicle = new Vehicle();
         if ($this->request->isPost) {
             $post = $this->request->post();
+
             if ($modelVehicle->load($post) && $model->load($post)) {
+                $model->requested_role = VehicleRequest::ROLE_STUDENT;
+                if (!empty($_FILES['Vehicle']['name']['plate_image']) && !empty($_FILES['Vehicle']['name']['image'])) {
+                    $filePlate = UploadedFile::getInstance($modelVehicle, 'plate_image');
+                    $fileImage = UploadedFile::getInstance($modelVehicle, 'image');
+                    $filePlateName = "plate_" . $modelVehicle->plate . "_" . $model->requested_role . "_" . $model->requested_id . "." . $filePlate->getExtension();
+                    $fileImageName = "image_" . $modelVehicle->plate . "_" . $model->requested_role . "_" . $model->requested_id . "." . $fileImage->getExtension();
+                    $modelVehicle->plate_image = $filePlateName;
+                    $modelVehicle->image = $fileImageName;
+
+                    $path = "uploads/vehicle/";
+                    if (!file_exists($path)) {
+                        FileHelper::createDirectory($path);
+                    }
+
+                    $filePlate->saveAs($path . $filePlateName);
+                    $fileImage->saveAs($path . $fileImageName);
+                } else {
+                    dump($_FILES);
+                    exit;
+                }
                 if ($modelVehicle->save()) {
                     $model->vehicle_id = $modelVehicle->id;
                     $model->requested_role = VehicleRequest::ROLE_STUDENT;
                     $model->creator = VehicleRequest::DUMMY_CREATOR;
                     $model->status = VehicleRequest::STATUS_REQUEST;
+
                     if ($model->save()) {
                         return $this->redirect(['view', 'id' => $model->id]);
                     } else {
@@ -126,12 +155,45 @@ class VehicleRequestController extends Controller
 
     public function actionUpdate($id)
     {
+        $path = "/uploads/vehicle/";
         $model = $this->findModel($id);
         $modelVehicle = $model->vehicle;
+        $modelVehicle->scenario = 'update';
+        $imageName = $modelVehicle->image;
+        $plateImageName = $modelVehicle->plate_image;
+        $modelVehicle->plate_image = $path . $modelVehicle->plate_image;
+        $modelVehicle->image = $path . $modelVehicle->image;
         $objOwnerRequest = $model->getOwnerRequest($model->requested_id, $model->requested_role);
+        $date = date('Ymd_His');
         if ($this->request->isPost) {
             $post = $this->request->post();
+            $path = "uploads/vehicle/";
             if ($modelVehicle->load($post) && $model->load($post)) {
+                if ($_FILES['Vehicle']['name']['plate_image']) {
+                    unlink($path . $plateImageName);
+                    $filePlate = UploadedFile::getInstance($modelVehicle, 'plate_image');
+                    $filePlateName = "plate_"  . $model->requested_role . "_" . $model->requested_id . "_" . $date . "." . $filePlate->getExtension();
+                    $modelVehicle->plate_image = $filePlateName;
+                    $filePlate->saveAs($path . $filePlateName);
+                } else {
+                    $modelVehicle->plate_image = $plateImageName;
+                }
+
+                if (!empty($_FILES['Vehicle']['name']['image'])) {
+                    unlink($path . $imageName);
+                    $fileImage = UploadedFile::getInstance($modelVehicle, 'image');
+                    $fileImageName = "image_" . $model->requested_role . "_" . $model->requested_id . "_" . $date . "." . $fileImage->getExtension();
+                    $modelVehicle->image = $fileImageName;
+                    $fileImage->saveAs($path . $fileImageName);
+                } else {
+                    $modelVehicle->image = $imageName;
+                }
+
+
+                $path = "uploads/vehicle/";
+                if (!file_exists($path)) {
+                    FileHelper::createDirectory($path);
+                }
                 if ($modelVehicle->save()) {
                     $model->vehicle_id = $modelVehicle->id;
                     $model->creator = VehicleRequest::DUMMY_CREATOR;

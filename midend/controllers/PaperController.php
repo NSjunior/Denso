@@ -334,6 +334,25 @@ class PaperController extends Controller
 
     $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals, "L");
   }
+  public function actionVehicle_request()
+  {
+    $data = $this->dumpDataVehicleRequest();
+    $html = $this->renderPartial('vehicle_request', [...$data]);
+
+    $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+
+    $fileName = "แบบขอรับสติ๊กเกอร์ตดิรถผ่านเข้า-ออก";
+    $extraCssPath = Yii::getAlias('@midend') . '/web/css/pdf/admission/base.css';
+    $additionals = [];
+    $overrideConfig = [
+      'margin_left' => 50,
+      'margin_right' => 50,
+      'margin_top' => 30,
+      'margin_bottom' => 40,
+    ];
+
+    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals, "L");
+  }
 
   private function dummyDataVisit()
   {
@@ -1274,6 +1293,33 @@ class PaperController extends Controller
           'total_point' => 55.00,
           'remark' => '3',
         ],
+      ],
+    ];
+  }
+  private function dumpDataVehicleRequest()
+  {
+    return [
+      'vehicleRequest' => [
+        'title' => 'นาย',
+        'firstname' => 'ทดลอง',
+        'lastname' => 'อยากรู้อยากลอง',
+        'homenumber' => '167/12',
+        'moo' => '3',
+        'subdistrict' => 'บางนาเหนือ',
+        'district' => 'บางนา',
+        'province' => 'กรุงเทพฯ',
+        'phone' => '0912345678',
+        'type' => 'นักเรียน',
+      ],
+      'vehicle' => [
+        'plate' => 'กข1234',
+        'province' => 'กรุงเทพฯ',
+        'type' => 'รถยนตร์',
+        'brand' => 'Toyota',
+        'model' => 'cc',
+        'color' => 'ฟ้า',
+        'image' => '',
+        'plate_image' => '',
       ],
     ];
   }

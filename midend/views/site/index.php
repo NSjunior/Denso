@@ -53,6 +53,7 @@ $this->title = 'My Yii Application';
         <a class="btn btn-outline-secondary" href="https://t.nextschool.io/project/nextschool/issue/4351">Link Tree &raquo;</a>
         <br /><br />
         <?php echo Html::a('Image cropper', ['/image/imagecrop'], ['class' => 'btn btn-warning']); ?>&nbsp;
-        <a class="btn btn-outline-secondary" href="https://t.nextschool.io/project/nextschool/issue/4050">Link Tree &raquo;</a>
+        <a class="btn btn-outline-secondary" href="https://t.nextschool.io/project/nextschool/issue/4050">Link Tree &raquo;</a>&nbsp;
+        <?php echo Html::a('ขอสติ้กเกอร์', ['/paper/vehicle_request'], ['class' => 'btn btn-warning']); ?>&nbsp;
     </div>
 </div>

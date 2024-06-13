@@ -22,6 +22,8 @@ use Yii;
  */
 class Vehicle extends \yii\db\ActiveRecord
 {
+    const UPLOAD_PATH = "/uploads/vehicle/";
+
     const TYPE_CAR = 10;
     const TYPE_MOTORCYCLE = 20;
     /**
@@ -75,8 +77,16 @@ class Vehicle extends \yii\db\ActiveRecord
         return $this->hasMany(VehicleRequest::class, ['vehicle_id' => 'id']);
     }
 
-    public static function getVehicleType()
+    public function getProvinceInfo()
     {
-        return [self::TYPE_MOTORCYCLE => 'มอเตอร์ไซค์',  self::TYPE_CAR => 'รถยนต์'];
+        return $this->hasOne(Province::class, ['id' => 'province']);
+    }
+
+    public static function listTypes()
+    {
+        return [
+            self::TYPE_MOTORCYCLE => 'มอเตอร์ไซค์',
+            self::TYPE_CAR => 'รถยนต์'
+        ];
     }
 }

@@ -10,7 +10,8 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\VehicleRequest $model */
 
-$this->title = $modelOwnerRequest->fullname . " " . $modelOwnerRequest->code;
+// $this->title = $modelOwnerRequest->fullname . " " . $modelOwnerRequest->code;
+$this->title = $model->requester->fullname . " " . $model->requester->code;
 $this->params['breadcrumbs'][] = ['label' => 'คำร้องขอสติ้กเกอร์', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->disableTitleDisplay = true;
@@ -52,9 +53,9 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
 <div class="row g-4">
     <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
         <h2 class="fs-2 mb-2 me-2">
-            <?php echo $modelOwnerRequest->fullname ?>
+            <?php echo $model->requester->fullname ?>
             <small class="text-body-secondary">
-                <?php echo $modelOwnerRequest->code ?>
+                <?php echo $model->requester->code ?>
             </small>
         </h2>
     </div>
@@ -85,15 +86,15 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                                 <tbody>
                                     <tr>
                                         <th scope="row"> <?php echo 'ชื่อผู้ขอ' ?></th>
-                                        <td><?php echo $modelOwnerRequest->fullname ?></td>
+                                        <td><?php echo $model->requester->fullname ?></td>
                                     </tr>
                                     <tr>
                                         <th scope="row"> <?php echo 'รหัสประจำตัวผู้ขอ' ?></th>
-                                        <td><?php echo $modelOwnerRequest->code ?></td>
+                                        <td><?php echo $model->requester->code ?></td>
                                     </tr>
                                     <tr>
                                         <th scope="row"> <?php echo 'บทบาท' ?></th>
-                                        <td><?php echo $model->requested_role ?></td>
+                                        <td><?php echo VehicleRequest::listRoles()[$model->requested_role] ?></td>
                                     </tr>
                                     <tr>
                                         <th scope="row"> <?php echo 'สถานะ' ?></th>
@@ -107,7 +108,9 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                                     </tr>
                                     <tr>
                                         <th scope="row"> <?php echo 'วันที่สร้าง' ?></th>
-                                        <td><?php echo $model->created_at ?></td>
+                                        <td>
+                                            <?php echo Yii::$app->date->date('วันlที่ j F Y', strtotime($model->created_at)); ?>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -137,13 +140,13 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                         <div class="row g-4 d-flex justify-content-center align-items-center">
                             <div class="license-plate text-center flex-fill">
                                 <div class="fs-3 fw-bold"><?php echo $model->vehicle->plate ?></div>
-                                <div class="fs-4"><?php echo $model->vehicle->province ?></div>
+                                <div class="fs-4"><?php echo $model->vehicle->provinceInfo->name ?></div>
                             </div>
                             <table class="table table-striped table-hover">
                                 <tbody>
                                     <tr>
                                         <th scope="row"> <?php echo 'ประเภทรถ' ?></th>
-                                        <td><?php echo $model->vehicle->type ?></td>
+                                        <td><?php echo Vehicle::listTypes()[$model->vehicle->type] ?></td>
                                     </tr>
                                     <tr>
                                         <th scope="row"> <?php echo 'ยี่ห้อ' ?></th>
@@ -178,7 +181,7 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                     <div class="row">
                         <div class="col-12 mb-2">
                             <div class="card-img-top">
-                                <img src='<?php echo $model->vehicle->plate_image ?>' class="rounded">
+                                <img src='<?php echo Vehicle::UPLOAD_PATH . $model->vehicle->plate_image ?>' class="rounded">
                             </div>
                         </div>
                     </div>
@@ -199,7 +202,7 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                     <div class="row">
                         <div class="col-12 mb-2">
                             <div class="card-img-top">
-                                <img src='<?php echo $model->vehicle->image ?>' class="rounded">
+                                <img src='<?php echo Vehicle::UPLOAD_PATH . $model->vehicle->image ?>' class="rounded">
                             </div>
                         </div>
                     </div>

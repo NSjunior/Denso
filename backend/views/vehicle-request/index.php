@@ -35,7 +35,7 @@ $columns = [
     ], [
         'attribute' => 'requested_role',
         'headerOptions' => ['style' => 'width:120px;'],
-        'filter' => Html::activeDropDownList($searchModel, 'requested_role', $searchModel->getRequestAllRole(), ['prompt' => 'บทบาท', 'class' => 'form-select']),
+        'filter' => Html::activeDropDownList($searchModel, 'requested_role', $searchModel->listRoles(), ['prompt' => 'บทบาท', 'class' => 'form-select']),
         'label' => 'บทบาท',
         'format' => 'raw',
         'value' => function ($model) {
@@ -51,7 +51,7 @@ $columns = [
     [
         'attribute' => 'vehicleType',
         'headerOptions' => ['style' => 'width:120px;'],
-        'filter' => Html::activeDropDownList($searchModel, 'vehicleType', vehicle::getVehicleType(), ['prompt' => 'ประเภทรถ', 'class' => 'form-select']),
+        'filter' => Html::activeDropDownList($searchModel, 'vehicleType', Vehicle::listTypes(), ['prompt' => 'ประเภทรถ', 'class' => 'form-select']),
         'label' => 'ประเภทรถ',
         'format' => 'raw',
         'value' => function ($model) {

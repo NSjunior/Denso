@@ -117,9 +117,11 @@ class VehicleRequest extends \yii\db\ActiveRecord
         return [self::STATUS_REQUEST => 'รออนุมัติ', self::STATUS_APPROVED => 'อนุมัติ', self::STATUS_REJECT => 'ไม่อนุมัติ', self::STATUS_REVOKE => 'ยกเลิก'];
     }
 
-    public function getRequestAllRole()
+    public static function listRoles()
     {
-        return [self::ROLE_STUDENT => 'นักเรียน', self::ROLE_TEACHER => 'ครู'];
+        return [
+            self::ROLE_STUDENT => 'นักเรียน', self::ROLE_TEACHER => 'ครู'
+        ];
     }
 
     public function getOwnerRequest($req_id, $req_role)

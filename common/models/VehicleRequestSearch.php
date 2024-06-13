@@ -16,7 +16,7 @@ class VehicleRequestSearch extends VehicleRequest
     public $plate;
     public $province;
     public $vehicleType;
-    public $requested_id;
+    public $requested_id; //???
     public $status;
 
     /**
@@ -64,6 +64,7 @@ class VehicleRequestSearch extends VehicleRequest
             'asc' => ['vehicle.plate' => SORT_ASC],
             'desc' => ['vehicle.plate' => SORT_DESC],
         ];
+
         $dataProvider->sort->attributes['requested_role'] = [
             'asc' => ['vehicle_request.requested_role' => SORT_ASC],
             'desc' => ['vehicle_request.requested_role' => SORT_DESC],
@@ -82,7 +83,6 @@ class VehicleRequestSearch extends VehicleRequest
         $query->innerJoinWith('vehicle');
         $query->innerJoinWith('requester');
         $query->innerJoinWith('creatorInfo');
-
 
         $this->load($params);
 
@@ -108,21 +108,22 @@ class VehicleRequestSearch extends VehicleRequest
             'updated_at' => $this->updated_at,
         ]);
 
-        if ($this->requested_id) {
-            $query->innerJoinWith('requester');
-            $query->andFilterWhere([
-                'employee.id' => $this->requested_id
 
-            ]);
-        }
 
-        if ($this->plate) {
-            $query->innerJoinWith('vehicle');
-            $query->andFilterWhere([
-                'vehicle.id' => $this->vehicle_id
+        // if ($this->plate) {
+        //     $query->innerJoinWith('vehicle'); //??
+        //     $query->andFilterWhere([
+        //         'vehicle.id' => $this->vehicle_id
 
-            ]);
-        }
+        //     ]);
+        // }
+
+        // if ($this->requested_id) {
+        //     $query->innerJoinWith('requester'); //??
+        //     $query->andFilterWhere([
+        //         'employee.id' => $this->requested_id
+        //     ]);
+        // }
 
         if ($this->requester) {
             $query->andFilterWhere([

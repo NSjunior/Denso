@@ -92,7 +92,6 @@ class VehicleRequestSearch extends VehicleRequest
             return $dataProvider;
         }
 
-
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

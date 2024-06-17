@@ -76,7 +76,7 @@ $columns = [
     ], [
         'attribute' => 'status',
         'headerOptions' => ['style' => 'width:120px;'],
-        'filter' => Html::activeDropDownList($searchModel, 'status', $searchModel->listStatus(), ['prompt' => 'สถานะ', 'class' => 'form-select']),
+        'filter' => Html::activeDropDownList($searchModel, 'status', $searchModel->getRequestAllStatus(), ['prompt' => 'สถานะ', 'class' => 'form-select']),
         'label' => 'สถานะ',
         'format' => 'raw',
         'value' => function ($model) {

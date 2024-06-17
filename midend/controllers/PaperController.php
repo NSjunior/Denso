@@ -351,7 +351,7 @@ class PaperController extends Controller
       'margin_bottom' => 40,
     ];
 
-    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals, "L");
+    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals);
   }
 
   private function dummyDataVisit()
@@ -1300,16 +1300,26 @@ class PaperController extends Controller
   {
     return [
       'vehicleRequest' => [
+        'id', 1,
+        'created_at' => '2024-06-03 18:32:32.000',
+        'reason' => '', // when reject
+        'status' =>  10, //10: approved, -1: reject
+      ],
+      'requester' => [
         'title' => 'นาย',
-        'firstname' => 'ทดลอง',
-        'lastname' => 'อยากรู้อยากลอง',
-        'homenumber' => '167/12',
+        'firstname' => 'สุระพันธุ์',
+        'lastname' => 'แป้นทองรอง',
+        'home_number' => '167/12',
         'moo' => '3',
-        'subdistrict' => 'บางนาเหนือ',
-        'district' => 'บางนา',
-        'province' => 'กรุงเทพฯ',
+        'subdistrict' => 'พระนครศรีอยุธยา',
+        'district' => 'พระนครศรีอยุธยา',
+        'province' => 'พระนครศรีอยุธยา',
         'phone' => '0912345678',
-        'type' => 'นักเรียน',
+        'type' => 10,
+      ],
+      'appover' => [
+        'fullname' => 'นาย สุรชัย ไขแจ้ง',
+        'position' => 'ครูกิจการนักเรียน',
       ],
       'vehicle' => [
         'plate' => 'กข1234',
@@ -1318,8 +1328,8 @@ class PaperController extends Controller
         'brand' => 'Toyota',
         'model' => 'cc',
         'color' => 'ฟ้า',
-        'image' => '',
-        'plate_image' => '',
+        'image' => '/uploads/vehicle/plate_10_2_20240617_170331.jpg',
+        'plate_image' => '/uploads/vehicle/image_10_2_20240617_170331.jpg',
       ],
     ];
   }

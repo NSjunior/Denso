@@ -16,9 +16,31 @@ $this->params['breadcrumbs'][] = ['label' => 'คำร้องขอสติ�
 $this->params['breadcrumbs'][] = $this->title;
 $this->disableTitleDisplay = true;
 \yii\web\YiiAsset::register($this);
-$updateButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a('แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-warning text-white shadow p-2 mb-2 rounded']) : '';
+$aprroveButton = ($model->status != VehicleRequest::STATUS_REVOKE && $model->status != VehicleRequest::STATUS_APPROVED && $model->status != VehicleRequest::STATUS_REJECT) ? Html::a(
+    '<i class="fa-solid fa-check"></i> อนุมัติ',
+    ['approve', 'id' => $model->id],
+    [
+        'data' => [
+            'method' => 'post',
+            'confirm' => 'คุณต้องการอนุมัติคำขอสติ้กเกอร์นี้หรือไม่?',
+        ],
+        'class' => 'btn btn-success text-white shadow p-2 mb-2 rounded'
+    ],
+) : '';
+$unprroveButton = ($model->status != VehicleRequest::STATUS_REVOKE && $model->status != VehicleRequest::STATUS_APPROVED && $model->status != VehicleRequest::STATUS_REJECT) ? Html::a(
+    '<i class="fa-solid fa-xmark"></i> ไม่อนุมัติ',
+    ['reject', 'id' => $model->id],
+    [
+        'data' => [
+            'method' => 'post',
+            'confirm' => 'คุณต้องการไม่อนุมัติคำขอสติ้กเกอร์นี้หรือไม่?',
+        ],
+        'class' => 'btn btn-danger text-white shadow p-2 mb-2 rounded'
+    ],
+) : '';
+$updateButton = ($model->status != VehicleRequest::STATUS_REVOKE) ?  Html::a('<i class="fa-solid fa-pencil"></i> แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-warning text-white shadow p-2 mb-2 rounded']) : '';
 $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
-    'ยกเลิก',
+    '<i class="fa-solid fa-trash"></i> ยกเลิก',
     ['delete', 'id' => $model->id],
     [
         'data' => [
@@ -28,6 +50,17 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
         'class' => 'btn btn-danger text-white shadow p-2 mb-2 rounded'
     ],
 ) : '';
+$pdfButton = ($model->status == VehicleRequest::STATUS_APPROVED) ? Html::a(
+    '<i class="fa-solid fa-print"></i> PDF',
+    ['pdf', 'id' => $model->id],
+    [
+        'data' => [
+            'method' => 'post',
+        ],
+        'class' => 'btn btn-primary text-white shadow p-2 mb-2 rounded'
+    ],
+) : '';
+
 ?>
 <style>
     .license-plate {
@@ -49,27 +82,26 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
     }
 </style>
 
-
-<div class="row g-4">
-    <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
-        <h2 class="fs-2 mb-2 me-2">
-            <?php echo $model->requester->fullname ?>
-            <small class="text-body-secondary">
-                <?php echo $model->requester->code ?>
-            </small>
-        </h2>
-    </div>
-    <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <?php echo $updateButton  ?>
-            <?php echo $deleteButton ?>
+<div class="row d-flex align-content-around flex-wrap g-4">
+    <div class="row g-4">
+        <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
+            <h2 class="fs-2 mb-2 me-2">
+                <?php echo $model->requester->fullname ?>
+                <small class="text-body-secondary">
+                    <?php echo $model->requester->code ?>
+                </small>
+            </h2>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <?php echo $aprroveButton  ?>
+                <?php echo $unprroveButton ?>
+                <?php echo $pdfButton ?>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="d-flex align-content-around flex-wrap row ">
     <div class="row g-4">
-
         <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
             <div class="card mb-4 h-100">
                 <div class="card-body">
@@ -99,7 +131,7 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                                     <tr>
                                         <th scope="row"> <?php echo 'สถานะ' ?></th>
                                         <td>
-                                            <div> <span class="badge text-bg-<?php echo $status[0] ?> text-white fw-normal"><?php echo $status[1] ?> </span></div>
+                                            <div> <span class="badge fs-6 text-bg-<?php echo $status[0] ?> text-white fw-normal"><?php echo $status[1] ?> </span></div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -209,5 +241,12 @@ $deleteButton = ($model->status != VehicleRequest::STATUS_REVOKE) ? Html::a(
                 </div>
             </div>
         </div>
+        <div class="row g-2 col-12 col-sm col-xl col-xxl">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <?php echo $updateButton  ?>
+                <?php echo $deleteButton ?>
+            </div>
+        </div>
+        <div class="row g-4"></div>
     </div>
 </div>

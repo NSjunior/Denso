@@ -97,6 +97,7 @@ class VehicleRequestController extends Controller
     {
         $model = new VehicleRequest();
         $modelVehicle = new Vehicle();
+        $date = date('Ymd_His');
         if ($this->request->isPost) {
             $post = $this->request->post();
 
@@ -106,11 +107,11 @@ class VehicleRequestController extends Controller
                 if (!empty($_FILES['Vehicle']['name']['plate_image']) && !empty($_FILES['Vehicle']['name']['image'])) {
 
                     $filePlate = UploadedFile::getInstance($modelVehicle, 'plate_image');
-                    $filePlateName = "plate_" . $modelVehicle->plate . "_" . $model->requested_role . "_" . $model->requested_id . "." . $filePlate->getExtension();
+                    $filePlateName = "plate_" . $modelVehicle->plate . "_" . $model->requested_role . "_" . $model->requested_id . "_" . $date . "." . $filePlate->getExtension();
                     $modelVehicle->plate_image = $filePlateName;
 
                     $fileImage = UploadedFile::getInstance($modelVehicle, 'image');
-                    $fileImageName = "image_" . $modelVehicle->plate . "_" . $model->requested_role . "_" . $model->requested_id . "." . $fileImage->getExtension();
+                    $fileImageName = "image_" . $modelVehicle->plate . "_" . $model->requested_role . "_" . $model->requested_id . "_" . $date . "." . $fileImage->getExtension();
                     $modelVehicle->image = $fileImageName;
 
                     $path = Vehicle::UPLOAD_PATH;
@@ -166,21 +167,20 @@ class VehicleRequestController extends Controller
     public function actionUpdate($id)
     {
         $path = Vehicle::UPLOAD_PATH;
+        $date = date('Ymd_His');
         $model = $this->findModel($id);
         $modelVehicle = $model->vehicle;
-        $modelVehicle->scenario = 'update';
         $imageName = $modelVehicle->image;
         $plateImageName = $modelVehicle->plate_image;
         $modelVehicle->plate_image = $path . $modelVehicle->plate_image;
         $modelVehicle->image = $path . $modelVehicle->image;
-        $objOwnerRequest = $model->getOwnerRequest($model->requested_id, $model->requested_role);
-        $date = date('Ymd_His');
+
+
         if ($this->request->isPost) {
             $post = $this->request->post();
-            $path = Vehicle::UPLOAD_PATH;
+            $path = Yii::getAlias("@backend/web" . Vehicle::UPLOAD_PATH);
             if ($modelVehicle->load($post) && $model->load($post)) {
                 if ($_FILES['Vehicle']['name']['plate_image']) {
-                    unlink($path . $plateImageName);
                     $filePlate = UploadedFile::getInstance($modelVehicle, 'plate_image');
                     $filePlateName = "plate_"  . $model->requested_role . "_" . $model->requested_id . "_" . $date . "." . $filePlate->getExtension();
                     $modelVehicle->plate_image = $filePlateName;
@@ -190,7 +190,6 @@ class VehicleRequestController extends Controller
                 }
 
                 if (!empty($_FILES['Vehicle']['name']['image'])) {
-                    unlink($path . $imageName);
                     $fileImage = UploadedFile::getInstance($modelVehicle, 'image');
                     $fileImageName = "image_" . $model->requested_role . "_" . $model->requested_id . "_" . $date . "." . $fileImage->getExtension();
                     $modelVehicle->image = $fileImageName;
@@ -200,10 +199,7 @@ class VehicleRequestController extends Controller
                 }
 
 
-                $path = Vehicle::UPLOAD_PATH;
-                if (!file_exists($path)) {
-                    FileHelper::createDirectory($path);
-                }
+
                 if ($modelVehicle->save()) {
                     $model->vehicle_id = $modelVehicle->id;
                     $model->creator = user()->id;
@@ -227,7 +223,6 @@ class VehicleRequestController extends Controller
         }
         return $this->render('update', [
             'model' => $model,
-            'objOwnerRequest' => $objOwnerRequest,
             'modelVehicle' => $modelVehicle
         ]);
     }
@@ -247,6 +242,28 @@ class VehicleRequestController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionApprove($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = VehicleRequest::STATUS_APPROVED;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
+    public function actionReject($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = VehicleRequest::STATUS_REJECT;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
+    public function actionPdf($id)
+    {
+        $model = $this->findModel($id);
+
+        die($model->requester->fullname);
+    }
     /**
      * Finds the VehicleRequest model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -284,6 +301,7 @@ class VehicleRequestController extends Controller
         }
         return $out;
     }
+
     public function getstatus($status) // discontinue
     {
         if ($status == 0) {
@@ -298,15 +316,22 @@ class VehicleRequestController extends Controller
         return $arrstatus;
     }
 
-    public function getTypeVehicle($typeId) // discontinue
+    public function uploadImage($model, $imageName, $savePath)
     {
-        if ($typeId == 10) {
-            $typeName = 'มอเตอร์ไซค์';
-        } elseif ($typeId == 20) {
-            $typeName = 'รถยนต์';
+        $path = Vehicle::UPLOAD_PATH;
+        if (!file_exists($path)) {
+            FileHelper::createDirectory($path);
         }
-        return $typeName;
     }
+    // public function getTypeVehicle($typeId) // discontinue
+    // {
+    //     if ($typeId == 10) {
+    //         $typeName = 'มอเตอร์ไซค์';
+    //     } elseif ($typeId == 20) {
+    //         $typeName = 'รถยนต์';
+    //     }
+    //     return $typeName;
+    // }
 
     // public function getProvinceName($provincId)
     // {

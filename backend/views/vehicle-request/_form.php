@@ -16,6 +16,7 @@ $dataList = Employee::find()->select(['code AS id', 'CONCAT(title, \' \',firstna
 $data = ArrayHelper::map($dataList, 'id', 'text');
 $dataurl = \yii\helpers\Url::to(['/employee/list']);
 
+$dataCarType = ['10' => 'มอเตอร์ไซค์', '20' => 'รถยนต์'];
 
 $provinceList = Province::find()->select(['id', 'name AS text'])->andWhere(['id' => $modelVehicle->province])->asArray()->all();
 $provinceData = ArrayHelper::map($provinceList, 'id', 'text');
@@ -32,8 +33,10 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                 </div>
             </div>
 
+
             <div class="card-body px-4 pb-0">
                 <div class="row mb-1">
+
                     <div class="col-md">
                         <?php
                         echo $form->field($model, 'requested_id', [
@@ -67,6 +70,19 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                     </div>
                 </div>
                 <div class="row mb-1">
+                    <div class="col-md">
+                        <?php echo $form->field($modelVehicle, 'type', [
+                            'inputOptions' => [
+                                'id' => 'type',
+                                'placeholder' => 'เลือกประเภทรถ',
+                            ],
+                            'template' => '<div class="form-floating ">{input}{label}{error}{hint}</div>',
+                        ])->dropDownList($dataCarType, [
+                            'class' => 'form-select pt-4',
+                            'style' => 'line-height:25px',
+                            'prompt' => 'ประเภทรถ',
+                        ])->label('ประเภทรถ') ?>
+                    </div>
                     <div class="col-md">
                         <?php
                         echo $form->field($modelVehicle, 'plate', [
@@ -187,6 +203,28 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                     </div>
                 </div>
 
+            </div>
+            <div class="col-md">
+                <?php
+                echo $form->field($modelVehicle, 'model', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'id' => 'model',
+                        'placeholder' => 'รุ่น',
+                    ],
+                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                ])->label('รุ่น') ?>
+            </div>
+            <div class="col-md">
+                <?php
+                echo $form->field($modelVehicle, 'color', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'id' => 'color',
+                        'placeholder' => 'สี',
+                    ],
+                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                ])->label('สี') ?>
             </div>
 
             <div class="card-footer p-4">

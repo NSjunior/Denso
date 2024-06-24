@@ -72,30 +72,29 @@ class VehicleRequestController extends Controller
     {
         $model = new VehicleRequest();
         $modelVehicle = new Vehicle();
-        if ($this->request->isPost) {           
+        if ($this->request->isPost) {
             $post = $this->request->post();
-            if($modelVehicle->load($post) && $model->load($post)){
-                if($modelVehicle->save()){
+            if ($modelVehicle->load($post) && $model->load($post)) {
+                if ($modelVehicle->save()) {
                     $model->vehicle_id = $modelVehicle->id;
                     $model->requested_role = VehicleRequest::ROLE_STUDENT;
                     $model->creator = VehicleRequest::USER_ID;
                     $model->status = VehicleRequest::STATUS_REQUEST;
-                    if($model->save()){
+                    if ($model->save()) {
                         return $this->redirect(['view', 'id' => $model->id]);
-                    }else{
+                    } else {
                         dump($model->errors);
                         exit;
                     }
-                }else{
+                } else {
                     dump($modelVehicle->errors);
                     exit;
                 }
-            }else{
+            } else {
                 dump($model->errors);
                 dump($modelVehicle->errors);
                 exit;
             }
-
         } else {
             $model->loadDefaultValues();
         }
@@ -112,7 +111,7 @@ class VehicleRequestController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -177,7 +176,4 @@ class VehicleRequestController extends Controller
         }
         return $out;
     }
-
-
-
 }

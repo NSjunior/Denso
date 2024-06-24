@@ -334,6 +334,25 @@ class PaperController extends Controller
 
     $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals, "L");
   }
+  public function actionVehicle_request()
+  {
+    $data = $this->dumpDataVehicleRequest();
+    $html = $this->renderPartial('vehicle_request', [...$data]);
+
+    $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+
+    $fileName = "แบบขอรับสติ๊กเกอร์ตดิรถผ่านเข้า-ออก";
+    $extraCssPath = Yii::getAlias('@midend') . '/web/css/pdf/admission/base.css';
+    $additionals = [];
+    $overrideConfig = [
+      'margin_left' => 50,
+      'margin_right' => 50,
+      'margin_top' => 30,
+      'margin_bottom' => 40,
+    ];
+
+    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals);
+  }
 
   private function dummyDataVisit()
   {
@@ -545,15 +564,26 @@ class PaperController extends Controller
         'totalFemaleStudent' => 12,
         'student_home_condition_good' => 20,
         'student_home_condition_normal' => 13,
-        'student_home_condition_bad' => 0,
+        'student_home_condition_bad' => 2,
+        'student_home_condition_other' => 1,
+        'student_home_condition_remark' => '',
+
         'student_living_environment_good' => 20,
         'student_living_environment_normal' => 16,
-        'student_relationship_level_close' => 0,
+        'student_living_environment_other' => 1,
+        'student_living_environment_remark' => '',
+
+        'student_relationship_level_close' => 1,
         'student_relationship_level_care' => 36,
-        'student_relationship_level_let_free' => 0,
+        'student_relationship_level_let_free' => 4,
+        'student_relationship_level_other' => 1,
+        'student_relationship_level_remark' => '',
+
         'student_family_care_close' => 36,
-        'student_family_care_care' => 0,
-        'student_family_care_let_free' => 0,
+        'student_family_care_care' => 4,
+        'student_family_care_let_free' => 2,
+        'student_family_care_other' => 1,
+        'student_family_care_remark' => '',
         'totalVisitStudent' => 36,
         'totalNonVisitStudent' => 0,
       ],
@@ -570,6 +600,9 @@ class PaperController extends Controller
       ],
       'model' => [
         'name' => 'ม.6/6',
+      ],
+      'logo' => [
+        'image' => 'https://app.nextschool.io/img/logo/1672727480hkw_logo.png',
       ],
     ];
   }
@@ -1274,6 +1307,43 @@ class PaperController extends Controller
           'total_point' => 55.00,
           'remark' => '3',
         ],
+      ],
+    ];
+  }
+  private function dumpDataVehicleRequest()
+  {
+    return [
+      'vehicleRequest' => [
+        'id', 1,
+        'created_at' => '2024-06-03 18:32:32.000',
+        'reason' => '', // when reject
+        'status' =>  10, //10: approved, -1: reject
+      ],
+      'requester' => [
+        'title' => 'นาย',
+        'firstname' => 'สุระพันธุ์',
+        'lastname' => 'แป้นทองรอง',
+        'home_number' => '167/12',
+        'moo' => '3',
+        'subdistrict' => 'พระนครศรีอยุธยา',
+        'district' => 'พระนครศรีอยุธยา',
+        'province' => 'พระนครศรีอยุธยา',
+        'phone' => '0912345678',
+        'type' => 10,
+      ],
+      'appover' => [
+        'fullname' => 'นาย สุรชัย ไขแจ้ง',
+        'position' => 'ครูกิจการนักเรียน',
+      ],
+      'vehicle' => [
+        'plate' => 'กข1234',
+        'province' => 'กรุงเทพฯ',
+        'type' => 'รถยนตร์',
+        'brand' => 'Toyota',
+        'model' => 'cc',
+        'color' => 'ฟ้า',
+        'image' => '/uploads/vehicle/plate_10_2_20240617_170331.jpg',
+        'plate_image' => '/uploads/vehicle/image_10_2_20240617_170331.jpg',
       ],
     ];
   }

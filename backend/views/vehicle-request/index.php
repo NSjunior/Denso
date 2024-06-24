@@ -25,34 +25,33 @@ $this->disableTitleDisplay = true;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
     ?>
-    <<<<<<< HEAD=======>>>>>>> 6654fd9 (merge Vehicle form)
 
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
-                [
-                    'attribute' => 'vehicle_id',
-                    'label' => 'Vehicle'
-                ],
-                'requested_id',
-                'requested_role',
-                'approver',
-                //'approved_at',
-                //'status',
-                //'creator',
-                //'created_at',
-                //'updater',
-                //'updated_at',
-                [
-                    'class' => ActionColumn::className(),
-                    'urlCreator' => function ($action, VehicleRequest $model, $key, $index, $column) {
-                        return Url::toRoute([$action, 'id' => $model->id]);
-                    }
-                ],
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'vehicle_id',
+                'label' => 'Vehicle'
             ],
-        ]); ?>
+            'requested_id',
+            'requested_role',
+            'approver',
+            //'approved_at',
+            //'status',
+            //'creator',
+            //'created_at',
+            //'updater',
+            //'updated_at',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, VehicleRequest $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                }
+            ],
+        ],
+    ]); ?>
 
 
 </div>

@@ -12,16 +12,17 @@ use kartik\export\ExportMenu;
 /** @var yii\web\View $this */
 /** @var common\models\VehicleRequest $model */
 
-$createButton = Html::a('<i class="fa-solid fa-plus"></i> ยื่นคำร้อง', ['/vehicle-request/create'], ['class' => 'btn btn-success text-white btn-lg shadow mt-4 mb-4 fs-4']);
-$pdfButton = Html::a('<i class="fa-solid fa-print"></i> Print PDF', ['/vehicle-request/print-pdf'], ['class' => 'btn btn-primary text-white btn-lg shadow mt-4 mb-4 fs-4']);
-$this->title = 'คำร้องขอสติ้กเกอร์';
-$this->params['breadcrumbs'][] = ['label' => $this->title];
+
+$this->title = "Print PDF";
+$this->params['breadcrumbs'][] = ['label' => 'คำร้องขอสติ้กเกอร์', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 $this->disableTitleDisplay = true;
 
 \yii\web\YiiAsset::register($this);
 
+
 $columns = [
-    ['class' => 'kartik\grid\SerialColumn'],
+    ['class' => '\kartik\grid\CheckboxColumn'],
     [
         'attribute' => 'requester',
         'label' => 'ชื่อ',
@@ -141,12 +142,13 @@ $fullExportMenu = ExportMenu::widget([
 ?>
 <div class="row g-4">
     <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
-        <h2 class="fs-2 mb-2 me-2"><?php echo $this->title ?></h2>
+
     </div>
     <div class="col-12 col-sm-6 col-xl-6 col-xxl-6">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <?php echo $createButton ?>
-            <?php echo $pdfButton ?>
+            <?php //echo $createButton 
+            ?>
+
         </div>
     </div>
 </div>
@@ -159,13 +161,29 @@ $fullExportMenu = ExportMenu::widget([
         'hover' => true,
         'panel' => [
             'type' => GridView::TYPE_SECONDARY,
-            'heading' => '<h3 class="panel-title pt-2"><i class="fa-solid fa-car-side"></i> ' . $this->title . '</h3>',
+            'heading' => '<h3 class="panel-title pt-2"><i class="fa-solid fa-print"></i> ' . $this->title . '</h3>',
+            'after' => '<div class="d-flex justify-content-end"><button class ="btn btn-primary pull-right text-light" id = "btn-pdf" >pdf</button>
+            </div> '
         ],
         'columns' => $columns,
         'toolbar' => [
             $fullExportMenu,
         ],
-
+        'id' => "listVehicle",
     ]); ?>
 
 </div>
+<?php
+$this->registerJs('
+  jQuery("#btn-pdf").click(function(){
+    var keys = $("#listVehicle").yiiGridView("getSelectedRows");
+    console.log(keys);
+    if(keys.length>0){
+      jQuery.post("' . Url::to(['print-pdf']) . '",{ids:keys.join()},function(){
+
+      });
+    }
+  });
+');
+
+?>

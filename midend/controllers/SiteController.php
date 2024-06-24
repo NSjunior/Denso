@@ -256,4 +256,17 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+    public function actionTest()
+    {
+        $arr_id = [3, 4];
+        return $this->render('test', [
+            'arr_id' => $arr_id
+        ]);
+    }
+    public function actionpdf($arr_id){
+        foreach ($arr_id as $id){
+
+        }
+    }
 }

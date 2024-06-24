@@ -2,10 +2,12 @@
 
 namespace backend\controllers;
 
+use backend\controllers\PaperController as ControllersPaperController;
 use common\models\VehicleRequest;
 use common\models\VehicleRequestSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use PaperController;
 use yii\filters\VerbFilter;
 use common\models\Vehicle;
 use common\models\Province;
@@ -260,9 +262,9 @@ class VehicleRequestController extends Controller
 
     public function actionPdf($id)
     {
-        $model = $this->findModel($id);
-
-        die($model->requester->fullname);
+        $PaperController = new ControllersPaperController('PaperController', Yii::$app);
+        $result = $PaperController->actionVehicle_request();
+        return $this->render('index', ['result' => $result]);
     }
     /**
      * Finds the VehicleRequest model based on its primary key value.
@@ -322,6 +324,58 @@ class VehicleRequestController extends Controller
         if (!file_exists($path)) {
             FileHelper::createDirectory($path);
         }
+    }
+
+    public function actionPrintPdf()
+    {
+        $searchModel = new VehicleRequestSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        $queryParams = $this->request->queryParams;
+
+        return $this->render('print-pdf', [
+            'searchModel' => $searchModel,
+            'queryParams' => $queryParams,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    private function dataVehicleRequest($id)
+    {
+        $model = $this->findModel($id);
+        return [
+            'vehicleRequest' => [
+                'id', $model->id,
+                'created_at' =>  $model->created_at,
+                'reason' => '', // when reject
+                'status' =>  $model->status, //10: approved, -1: reject
+            ],
+            'requester' => [
+                'title' => $model->requester->title,
+                'firstname' => $model->requester->firstname,
+                'lastname' => $model->requester->lastname,
+                'home_number' => '167/12',
+                'moo' => '3',
+                'subdistrict' => 'พระนครศรีอยุธยา',
+                'district' => 'พระนครศรีอยุธยา',
+                'province' => 'พระนครศรีอยุธยา',
+                'phone' => '0912345678',
+                'type' => $model->requested_role,
+            ],
+            'appover' => [
+                'fullname' => 'นาย สุรชัย ไขแจ้ง',
+                'position' => 'ครูกิจการนักเรียน',
+            ],
+            'vehicle' => [
+                'plate' => $model->vehicle->plate,
+                'province' => $model->vehicle->province,
+                'type' => $model->vehicle->type,
+                'brand' => $model->vehicle->brand,
+                'model' => $model->vehicle->model,
+                'color' => $model->vehicle->color,
+                'image' => $model->vehicle->image,
+                'plate_image' => $model->vehicle->plate_image,
+            ],
+        ];
     }
     // public function getTypeVehicle($typeId) // discontinue
     // {

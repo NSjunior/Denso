@@ -93,8 +93,8 @@ $date = Yii::$app->date->date('วันที่ j เดือน F  ปี Y'
     <dt style="padding-left:30px;">2. แนบภาพถ่ายทะเบียนรถจากด้านท้ายตัวรถ</dt>
     <dt>* หมายเหตุข้าพเจ้าจะปฏิบัติตาม พรบ. จราจรทางบกและตามคำแนะนะของพนักงานเจ้าหน้าที่อย่างเคร่งครัด หากฝ่าฝืนหรือกระทำผิดร้ายแรง ยินยอมให้เพิกถอนและชดใช้ค่าเสียหายให้กับทางราชการโดยทันที</dt>
 </dl>
-<dl style="font-size:16pt;float:right;margin-left:350px;margin-top:10px; ">
-    <dt style="margin-left:100px; line-height:100px;">ขอรับรองว่าข้อความข้างต้นเป็นจริง</dt>
+<dl style="font-size:16pt;float:right;margin-left:350px;margin-top:10px;">
+    <dt style="margin-left:100px;">ขอรับรองว่าข้อความข้างต้นเป็นจริง</dt>
     <dt style="width:50px">ลงชื่อ</dt>
     <dd>sasdsd</dd>
     <dt style="margin-left:200px;">ผู้ขอ</dt>

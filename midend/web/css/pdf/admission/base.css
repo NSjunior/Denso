@@ -292,12 +292,12 @@ h3.normal{
 }
 
 @media print {
-  @page {
+  /* @page {
     margin-left: 60px;
     margin-right: 60px;
     margin-top: 20px;
     margin-bottom: 0px;
-  }
+  } */
 
   body,
   .page {

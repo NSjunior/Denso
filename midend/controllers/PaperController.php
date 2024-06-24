@@ -565,14 +565,21 @@ class PaperController extends Controller
         'student_home_condition_good' => 20,
         'student_home_condition_normal' => 13,
         'student_home_condition_bad' => 0,
+        'student_home_condition_other' => 1,
+
         'student_living_environment_good' => 20,
         'student_living_environment_normal' => 16,
+        'student_living_environment_other' => 1,
+
         'student_relationship_level_close' => 0,
         'student_relationship_level_care' => 36,
-        'student_relationship_level_let_free' => 0,
+        'student_relationship_level_let_free' => 4,
+        'student_relationship_level_other' => 1,
+
         'student_family_care_close' => 36,
-        'student_family_care_care' => 0,
+        'student_family_care_care' => 4,
         'student_family_care_let_free' => 0,
+        'student_family_care_other' => 1,
         'totalVisitStudent' => 36,
         'totalNonVisitStudent' => 0,
       ],
@@ -589,6 +596,9 @@ class PaperController extends Controller
       ],
       'model' => [
         'name' => 'ม.6/6',
+      ],
+      'logo' => [
+        'image' => 'https://app.nextschool.io/img/logo/1672727480hkw_logo.png',
       ],
     ];
   }
@@ -1330,6 +1340,73 @@ class PaperController extends Controller
         'color' => 'ฟ้า',
         'image' => '/uploads/vehicle/plate_10_2_20240617_170331.jpg',
         'plate_image' => '/uploads/vehicle/image_10_2_20240617_170331.jpg',
+      ],
+    ];
+  }
+  private function dummyDataVisit_bodin()
+  {
+    return [
+      'missing' => [
+        'living_environment' => 'ดี เอื้อต่อการดำรงชีวิต', //สภาพแวดล้อมที่อยู่อาศัย
+        'environmentDetail' => 'ดี เอื้อต่อการดำรงชีวิต', //ลักษณะของสภาพแวดล้อม(ชุมชน/สังคม)ที่นักเรียนอาศัยอยู่
+        'familyRelationship' => 'ใกล้ชิด / อบอุ่น / มีเหตุผล', //สัมพันธภาพของครอบครัว
+        'family_care' => 'ครอบครัวเอาใจใส่ ดูแลด้านพฤติกรรมและการเรียน', //การเอาใจใส่ของครอบครัว
+        'create_date' => '2024-02-12 13:14:51',
+      ],
+      'profile' => [
+        'fullname' => 'ด.ช. ฉัตรปรัชญา มุ้งบัง',
+        'student_id' => 1,
+
+      ],
+      'address' => [
+        'no' => '49',
+        'moo' => '4',
+        'village' => '-',
+        'soi' => 'เรวดี 27',
+        'street' => 'ติวานนท์',
+        'sub_district' => 'ตลาดขวัญ',
+        'district' => 'เมืองนนทบุรี',
+        'province' => 'นนทบุรี',
+        'zip' => '11000',
+      ],
+      'dad' => [
+        'fullname' => 'นาย ธรรมนูญ มุ้งบัง',
+        'phone' => '0881994519',
+      ],
+      'mom' => [
+        'fullname' => 'นางสาว นิตญา ราชบุตร',
+        'phone' => '0999486517',
+      ],
+      'parent' => [
+        'fullname' => 'นาย ธรรมนูญ มุ้งบัง',
+        'phone' => '0881994519',
+      ],
+      'model' => [
+        'class' => 'ม.2',
+        'room' => '2'
+      ],
+      'VisitInfoOpinion' => [
+        'remark' => 'ข้อเสนอแนะ',
+      ],
+      'VisitInfoFiles' => [
+        'path' => [
+          'image1' => 'https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg',
+          'image2' => 'https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg',
+        ]
+      ],
+      'teacherClass' => [
+        0 => [
+          'teacherClassSinceYear' => '2565',
+          'fullname' => 'นายธีระชัย เถลิงลาภ',
+        ],
+        1 => [
+          'teacherClassSinceYear' => '2566',
+          'fullname' => 'นายพรพล เทพไทยอำนวย',
+        ],
+        2 => [
+          'teacherClassSinceYear' => '2567',
+          'fullname' => 'นายพรพล เทพไทยอำนวย',
+        ],
       ],
     ];
   }

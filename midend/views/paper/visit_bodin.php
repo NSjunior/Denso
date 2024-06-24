@@ -138,19 +138,3 @@ $formattedHour = Yii::$app->date->date('H:i น.', $timestamp);
         <?php echo $image2 ?>
     </div>
 </div>
-<dl>
-    <dt style="line-height: 40px; display: inline-block; width: 45%;">ลงชื่อ..........................................................นักเรียน</dt>
-    <dt style="line-height: 40px; display: inline-block; width: 45%;">ลงชื่อ..........................................................ผู้ปกครอง</dt>
-</dl>
-<dl>
-    <dt sstyle="line-height: 40px; display: inline-block; width: 45%;" class="col-5">(........................................................)</dt>
-    <dt style="line-height: 40px; display: inline-block; width: 45%;" class="col-5">(........................................................)</dt>
-</dl>
-<dl>
-    <dt stype="line-height: 40px;">ลงชื่อ...............................................ครูที่ปรึกษา</dt>
-    <dt stype="line-height: 40px;">ลงชื่อ...............................................ครูที่ปรึกษา</dt>
-</dl>
-<dl>
-    <dt stype="line-height: 40px;">(........................................................)</dt>
-    <dt stype="line-height: 40px;">(........................................................)</dt>
-</dl>

@@ -6,8 +6,34 @@ $string = $model['name'];
 $parts = explode('.', $string);
 $modelname1 = $parts[0]; // ม.
 $modelname2 = $parts[1]; // 6/6
-?>
 
+$homeCondition = [
+    'good' => 1,
+    'fair' => 2,
+    'worry' => 3,
+    'remark' => '',
+];
+$homeEnvCondition = [
+    'good' => 0,
+    'fair' => 0,
+    'remark' => '',
+];
+$famailyRelationship = [
+    'close' => 0,
+    'care' => 0,
+    'freedom' => 0,
+    'remark' => '',
+];
+$familyCare = [
+    'close' => 0,
+    'care' => 0,
+    'freedom' => 0,
+    'remark' => '',
+];
+
+
+?>
+<meta charset="UTF-8">
 <div style="font-size:16pt;line-height:30px;">
     <div style="text-align: center; line-height:20px; margin-bottom: 15px;">
         <img src="<?php echo $logo['image']; ?>">
@@ -49,126 +75,194 @@ $modelname2 = $parts[1]; // 6/6
             <dd style="width:80px;"><?php echo $missing['totalNonVisitStudent'] ?></dd>
             <dt style="width:30px;">คน</dt>
         </dl>
-        <p style="padding-top:5px;line-height:20px">1. สภาพแวดล้อมที่อยู่อาศัย</p>
-        <div class="col-1" style="width:66%;float:left;margin-left:20px;">
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;ดี เอื้อต่อการดำรงชีวิต<br />
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;พอใช้<br />
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;ชุมชน/น่าห่วงใย<br />
-        </div>
-        <div class="col-1" style="width:33%;float:left;margin-top:-5px;margin-right:-20px">
-            <dl>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_home_condition_good']) ? "&nbsp;" : $missing['student_home_condition_good']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_home_condition_normal']) ? "&nbsp;" : $missing['student_home_condition_normal']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_home_condition_bad']) ? "&nbsp;" : $missing['student_home_condition_bad']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-            </dl>
-        </div>
-        <div style="float:left;margin-top:-5px;margin-left:20px">
-            <dl>
-                <dt style="width:60px;"> <span style="width:50px;font-family: fontawesome; font-size:80%;">&#9723;</span> อื่นๆ</dt>
-                <dd style="width:510px;"><?php echo empty($missing['student_family_care_remark']) ? "&nbsp;" : $missing['student_home_condition_remark']; ?></dd>
-            </dl>
+        <p style="padding-top:5px; line-height:20px">1. สภาพแวดล้อมที่อยู่อาศัย</p>
+        <div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $homeCondition['good'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">ดี เอื้อต่อการดำรงชีวิต</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $homeCondition['good']; ?></dd>
+                        <dt style="width:30px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $homeCondition['fair'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">พอใช้</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $homeCondition['fair']; ?></dd>
+                        <dt style="width:30px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $homeCondition['worry'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">ชุมชน/น่าห่วงใย</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $homeCondition['worry']; ?></dd>
+                        <dt style="width:30px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float:left;">
+                    <dl>
+                        <dt style="width:60px;"> <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $homeCondition['remark'] != '' ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp; อื่นๆ</dt>
+                        <dd style="width:510px;"><?php echo $homeCondition['remark'] == '' ? "&nbsp;" : $homeCondition['remark'];  ?></dd>
+                    </dl>
+                </div>
+            </div>
         </div>
         <p style="padding-top:5px; line-height:20px">2. ลักษณะของสภาพแวดล้อม(ชุมชน/สังคม)ที่นักเรียนอาศัยอยู่</p>
-        <div class="col-1" style="width:66%;float:left;margin-left:20px;">
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;ดี เอื้อต่อการดำรงชีวิต<br />
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;พอใช้<br />
-        </div>
-        <div class="col-1" style="width:33%;float:left;margin-top:-5px;margin-right:-20px">
-            <dl>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_living_environment_good']) ? "&nbsp;" : $missing['student_living_environment_good']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_living_environment_normal']) ? "&nbsp;" : $missing['student_living_environment_normal']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-            </dl>
-        </div>
-        <div style="float:left;margin-top:-5px;margin-left:20px">
-            <dl>
-                <dt style="width:60px;"> <span style="width:50px;font-family: fontawesome; font-size:80%;">&#9723;</span> อื่นๆ</dt>
-                <dd style="width:510px;"><?php echo empty($missing['student_family_care_remark']) ? "&nbsp;" : $missing['student_home_condition_remark']; ?></dd>
-            </dl>
+        <div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $homeEnvCondition['good'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">ดี เอื้อต่อการดำรงชีวิต</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $homeEnvCondition['good']; ?></dd>
+                        <dt style="width:30px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $homeEnvCondition['fair'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">พอใช้</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $homeEnvCondition['fair']; ?></dd>
+                        <dt style="width:30px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float:left;">
+                    <dl>
+                        <dt style="width:60px;"> <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $homeEnvCondition['remark'] != '' ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp; อื่นๆ</dt>
+                        <dd style="width:510px;"><?php echo $homeEnvCondition['remark']  == '' ? "&nbsp;" : $homeEnvCondition['remark']; ?></dd>
+                    </dl>
+                </div>
+            </div>
         </div>
         <p style="padding-top:5px; line-height:20px">3. สัมพันธภาพของครอบครัว</p>
-        <div class="col-1" style="width:66%;float:left;margin-left:20px;">
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;ใกล้ชิด / อบอุ่น / มีเหตุผล<br />
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;สนใจ / เอาใจใส่<br />
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;ห่างเหิน / ให้อิสระ<br />
-        </div>
-        <div class="col-1" style="width:33%;float:left;margin-top:-5px;margin-right:-20px">
-            <dl>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_relationship_level_close']) ? "&nbsp;" : $missing['student_relationship_level_close']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_relationship_level_care']) ? "&nbsp;" : $missing['student_relationship_level_care']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_relationship_level_let_free']) ? "&nbsp;" : $missing['student_relationship_level_let_free']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-            </dl>
-        </div>
-        <div style="float:left;margin-top:-5px;margin-left:20px">
-            <dl>
-                <dt style="width:60px;"> <span style="width:50px;font-family: fontawesome; font-size:80%;">&#9723;</span> อื่นๆ</dt>
-                <dd style="width:510px;"><?php echo empty($missing['student_family_care_remark']) ? "&nbsp;" : $missing['student_home_condition_remark']; ?></dd>
-            </dl>
+        <div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $famailyRelationship['close'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">ใกล้ชิด / อบอุ่น / มีเหตุผล</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $famailyRelationship['close']; ?></dd>
+                        <dt style="width:40px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $famailyRelationship['care'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">สนใจ / เอาใจใส่</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $famailyRelationship['care']; ?></dd>
+                        <dt style="width:40px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $famailyRelationship['freedom'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">ห่างเหิน / ให้อิสระ</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $famailyRelationship['freedom']; ?></dd>
+                        <dt style="width:40px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float:left;">
+                    <dl>
+                        <dt style="width:60px;"> <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $famailyRelationship['remark'] != '' ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp; อื่นๆ</dt>
+                        <dd style="width:510px;"><?php echo $famailyRelationship['remark']  == '' ? "&nbsp;" : $famailyRelationship['remark']; ?></dd>
+                    </dl>
+                </div>
+            </div>
         </div>
         <p style="padding-top:5px; line-height:20px;">4. การเอาใจใส่ของครอบครัว</p>
-        <div class="col-1" style="width:66%;float:left;margin-left:20px;">
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;ครอบครัวเอาใจใส่ ดูแลด้านพฤติกรรมและการเรียน<br />
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;ครอบครัวเอาใจใส่ (เล็กน้อย) ด้านพฤติกรรมและการเรียน<br />
-            <span style="font-family: fontawesome; font-size:80%;">&#9723;</span>&nbsp;&nbsp;ครอบครัวให้อิสระ ไม่ใส่ใจติดตามด้านพฤติกรรมและการเรียน<br />
-        </div>
-        <div class="col-1" style="width:33%;float:left;margin-top:-5px;margin-right:-20px">
-            <dl>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_family_care_close']) ? "&nbsp;" : $missing['student_family_care_close']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_family_care_care']) ? "&nbsp;" : $missing['student_family_care_care']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-                <dt style="width:45px;">จำนวน</dt>
-                <dd style="width:80px;"><?php echo empty($missing['student_family_care_let_free']) ? "&nbsp;" : $missing['student_family_care_let_free']; ?></dd>
-                <dt style="width:30px;">คน</dt>
-            </dl>
-        </div>
-        <div style="float:left;margin-top:-5px;margin-left:20px">
-            <dl>
-                <dt style="width:60px;"> <span style="width:50px;font-family: fontawesome; font-size:80%;">&#9723;</span> อื่นๆ</dt>
-                <dd style="width:510px;"><?php echo empty($missing['student_family_care_remark']) ? "&nbsp;" : $missing['student_home_condition_remark']; ?></dd>
-            </dl>
-        </div>
-        <div style="align-items: start; margin-left: 20px; " class="col-1">
-
-
+        <div style="padding:0px;">
+            <div style="margin-left:25px;">
+                <div style="float: left;width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $familyCare['close'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">ครอบครัวเอาใจใส่ ดูแลด้านพฤติกรรมและการเรียน</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $familyCare['close']; ?></dd>
+                        <dt style="width:30px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $familyCare['care'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">ครอบครัวเอาใจใส่ (เล็กน้อย) ด้านพฤติกรรมและการเรียน</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $familyCare['care']; ?></dd>
+                        <dt style="width:30px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float: left; width:65%; text-align:left;">
+                    <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $familyCare['freedom'] != 0 ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp;
+                    <span width="200px">ครอบครัวให้อิสระ ไม่ใส่ใจติดตามด้านพฤติกรรมและการเรียน</span>
+                </div>
+                <div style="float:rigth;width:30%">
+                    <dl>
+                        <dt style="width:50px;">จำนวน</dt>
+                        <dd style="width:60px; "><?php echo $familyCare['freedom']; ?></dd>
+                        <dt style="width:30px;">คน</dt>
+                    </dl>
+                </div>
+            </div>
+            <div style="margin-left:25px;">
+                <div style="float:left;">
+                    <dl>
+                        <dt style="width:60px;"> <span width="80px" style="font-family: fontawesome; font-size:80%;"><?php echo $familyCare['remark'] != '' ? "&#9745;" : "&#9723"; ?></span>&nbsp;&nbsp; อื่นๆ</dt>
+                        <dd style="width:510px;"><?php echo $familyCare['remark'] == '' ? "&nbsp;" : $familyCare['remark'];  ?></dd>
+                    </dl>
+                </div>
+            </div>
         </div>
         <p style="padding-top:5px; line-height:20px;">5. ข้อเสนอแนะ / ความคิดเห็นของผู้ปกครอง</p>
     </div>
-    <p style="padding-left: 60px;">....................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................</p>
+    <p style="padding-left: 60px;">....................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................</p>
 </div>
-
-<div id="home_condition" class="overmask" style="font-size:150%;padding-top:-730px;padding-left:70px"><strong><?php echo $missing['student_home_condition_good'] ? "/" : "" ?></strong></div>
-<div id="home_condition" class="overmask" style="font-size:150%;padding-top:-700px;padding-left:70px"><strong><?php echo $missing['student_home_condition_normal'] ? "/" : "" ?></strong></div>
-<div id="home_condition" class="overmask" style="font-size:150%;padding-top:-670px;padding-left:70px"><strong><?php echo $missing['student_home_condition_bad'] ? "/" : "" ?></strong></div>
-<div id="home_condition" class="overmask" style="font-size:150%;padding-top:-635px;padding-left:70px"><strong><?php echo $missing['student_home_condition_other'] ? "/" : "" ?></strong></div>
-
-<div id="living_environment" class="overmask" style="font-size:150%;padding-top:-570px;padding-left:70px"><strong><?php echo $missing['student_living_environment_good'] ? "/" : "" ?></strong></div>
-<div id="living_environment" class="overmask" style="font-size:150%;padding-top:-540px;padding-left:70px"><strong><?php echo $missing['student_living_environment_normal'] ? "/" : "" ?></strong></div>
-<div id="living_environment" class="overmask" style="font-size:150%;padding-top:-510px;padding-left:70px"><strong><?php echo $missing['student_living_environment_other'] ? "/" : "" ?></strong></div>
-
-<div id="relationship_level" class="overmask" style="font-size:150%;padding-top:-445px;padding-left:70px"><strong><?php echo $missing['student_relationship_level_close'] ? "/" : "" ?></strong></div>
-<div id="relationship_level" class="overmask" style="font-size:150%;padding-top:-415px;padding-left:70px"><strong><?php echo $missing['student_relationship_level_care'] ? "/" : "" ?></strong></div>
-<div id="relationship_level" class="overmask" style="font-size:150%;padding-top:-385px;padding-left:70px"><strong><?php echo $missing['student_relationship_level_let_free'] ? "/" : "" ?></strong></div>
-<div id="relationship_level" class="overmask" style="font-size:150%;padding-top:-350px;padding-left:70px"><strong><?php echo $missing['student_relationship_level_other'] ? "/" : "" ?></strong></div>
-
-<div id="family_care" class="overmask" style="font-size:150%;padding-top:-285px;padding-left:70px"><strong><?php echo $missing['student_family_care_close'] ? "/" : "" ?></strong></div>
-<div id="family_care" class="overmask" style="font-size:150%;padding-top:-255px;padding-left:70px"><strong><?php echo $missing['student_family_care_care'] ? "/" : "" ?></strong></div>
-<div id="family_care" class="overmask" style="font-size:150%;padding-top:-225px;padding-left:70px"><strong><?php echo $missing['student_family_care_let_free'] ? "/" : "" ?></strong></div>
-<div id="family_care" class="overmask" style="font-size:150%;padding-top:-192px;padding-left:70px"><strong><?php echo $missing['student_family_care_other'] ? "/" : "" ?></strong></div>

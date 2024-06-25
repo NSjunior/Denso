@@ -562,7 +562,7 @@ class PaperController extends Controller
         'totalStudent' => 36,
         'totalMaleStudent' => 14,
         'totalFemaleStudent' => 12,
-        'student_home_condition_good' => 20,
+        'student_home_condition_good' => 0,
         'student_home_condition_normal' => 13,
         'student_home_condition_bad' => 2,
         'student_home_condition_other' => 1,

@@ -5,6 +5,7 @@ namespace midend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\components\NgMpdf;
+use PhpParser\Node\Expr\FuncCall;
 
 class PaperController extends Controller
 {
@@ -345,15 +346,132 @@ class PaperController extends Controller
     $extraCssPath = Yii::getAlias('@midend') . '/web/css/pdf/admission/base.css';
     $additionals = [];
     $overrideConfig = [
-      'margin_left' => 50,
-      'margin_right' => 50,
+      'margin_left' => 40,
+      'margin_right' => 40,
       'margin_top' => 30,
       'margin_bottom' => 40,
     ];
 
     $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals);
   }
+  public function actionPunish_bodin()
+  {
+    $data = $this->dummyDataPunishBodin();
+    $html = $this->renderPartial('punish_bodin', [...$data]);
 
+    $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+
+    $fileName = "แบบบันทึกการลงโทษนักเรียน";
+    $extraCssPath = Yii::getAlias('@midend') . '/web/css/pdf/admission/base.css';
+    $additionals = [];
+    $overrideConfig = [
+      'margin_left' => 96,
+      'margin_right' => 48,
+    ];
+    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals);
+  }
+  public function actionStudent_request_bodin()
+  {
+    $data = $this->dummyDataRequestBodin();
+    $html = $this->renderPartial('student_request_bodin', [...$data]);
+
+    $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+
+    $fileName = "บัตรขออนุญาต (นักเรียน)";
+    $extraCssPath = Yii::getAlias('@midend') . '/web/css/pdf/admission/base.css';
+    $additionals = [];
+    $overrideConfig = [
+      'margin_left' => 96,
+      'margin_right' => 48,
+    ];
+    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals);
+  }
+  private function dummyDataRequestBodin()
+  {
+    return [
+      'student' => [
+        'title' => 'นาย',
+        'firstname' => 'ฉัตรปรัชญา',
+        'lastname' => 'มุ้งบัง',
+        'fullname' => 'นายฉัตรปรัชญา มุ้งบัง',
+        'student_id' => 123456,
+        'phone_number' => '0831269231',
+        'secondary' => '2',
+        'room' => '2',
+        'student_number' => 30,
+      ],
+      'request' => [
+        'type' => 1, // 1 = enter the classroom, 2 = go out school
+        'remark' => 'ป่วยหนักต้องไปโรงพยาบาล',
+        'create_at' => '2024-02-10 11:14:51',
+      ],
+      'parent' => [
+        'fullname' => 'นายธรรมนูญ มุ้งบัง',
+        'phone_number' => '0912345678',
+      ],
+    ];
+  }
+  private function dummyDataPunishBodin()
+  {
+    return [
+      'student' => [
+        'title' => 'นาย',
+        'firstname' => 'ฉัตรปรัชญา',
+        'lastname' => 'มุ้งบัง',
+        'fullname' => 'นายฉัตรปรัชญา มุ้งบัง',
+        'student_id' => 123456,
+        'phone_number' => '0831269231',
+        'secondary' => '2',
+        'room' => '2',
+      ],
+      'punish' => [
+        'id' => 1,
+        'name' => 'มาสาย',
+        'create_date' => '2024-02-10 11:14:51',
+      ],
+      'punish_meta' => [
+        'warning' => [
+          'meta_value' => '',
+        ],
+        'parole' => [
+          'meta_value' => '',
+        ],
+        'deductPoints' => [
+          'meta_value' => '10',
+        ],
+        'participateActivities' => [
+          'meta_value' => 'ดำน้ำ',
+        ]
+      ],
+      'parent' => [
+        'fullname' => 'นายธรรมนูญ มุ้งบัง',
+        'phone_number' => '0912345678',
+      ],
+      'teacherClass' => [
+        0 => [
+          'fullname' => 'นายธีระชัย เถลิงลาภ',
+          'possition' => 'ครูที่ปรึกษา',
+        ],
+        1 => [
+          'fullname' => 'นายพรพล เทพไทยอำนวย',
+          'possition' => 'ครูที่ปรึกษา',
+        ],
+      ],
+      'teacher' => [
+        'fullname' => 'นางสาวนิตญา ราชบุตร',
+        'possition' => 'หัวหน้าระดับชั้น ม.',
+      ],
+      'deputyDirector' => [
+        'fullname' => 'นางสาวฐิติภัทร ทองมา',
+        'possition' => 'รองผู้อำนวยการกลุ่มบริหารบุคคล',
+      ],
+      'director' => [
+        'fullname' => 'นายสมพร สังวาระ',
+        'possition' => 'ผู้อำนวยการโรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)',
+      ],
+
+    ];
+  }
   private function dummyDataVisit()
   {
     return [

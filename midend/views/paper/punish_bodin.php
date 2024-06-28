@@ -10,7 +10,29 @@ $timestampPunish  = strtotime($datePunish);
 $thaiYearPunish = date('Y', $timestampPunish) + 543;
 $monthPunish = Yii::$app->date->date('F', $timestampPunish);
 $datePunish = Yii::$app->date->date('j', $timestampPunish);
-
+$deductPoints = [];
+if (empty($punish_meta['deductPoints']['meta_value'])) {
+    $deductPoints = [
+        'check' => "&#9723",
+        'meta_value' => "&nbsp;",
+    ];
+} else {
+    $deductPoints = [
+        'check' =>  "&#9745;",
+        'meta_value' => $punish_meta['deductPoints']['meta_value'],
+    ];
+}
+if (empty($punish_meta['joinActivities']['meta_value'])) {
+    $joinActivities = [
+        'check' => "&#9723",
+        'meta_value' => "&nbsp;",
+    ];
+} else {
+    $joinActivities = [
+        'check' =>  "&#9745;",
+        'meta_value' => $punish_meta['joinActivities']['meta_value'],
+    ];
+}
 $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
 ?>
 <div style="float: center;font-size:16pt;">
@@ -44,7 +66,7 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
     <dd style="width:40px;"><?php echo $punish['id'] ?></dd>
     <dt style="width:30px;">เรื่อง</dt>
     <dd style="width:fit-content">&nbsp;</dd>
-    <dd style="width:fit-content"><?php echo $punish['name'] ?></dd>
+    <dd style="width:fit-content"><?php echo $punish['mistake'] ?></dd>
     <dt style="width:50px;">เมื่อวันที่</dt>
     <dd style="width:40px;"><?php echo $datePunish ?></dd>
     <dt style="width:30px;">เดือน</dt>
@@ -56,7 +78,7 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
     <dt style="padding-left: 40px;">ดังนั้น เพื่อเจตนาที่จะแก้นิสัยและความประพฤติไม่ดีของนักเรียนให้รู้สำนึกในความผิดกลับประพฤติ</dt>
     <dt style="width: 460px;">ตนในทางที่ดี และมิให้เป็นเยี่ยงอย่างต่อผู้อื่นไป<?php echo "บดินเดขา (สิงห์ สิงหเสนี)" ?> จึงลงโทษ</dt>
     <dd style="width: 185px;">&nbsp;</dd>
-    <dd width="350px">lkda;sld</dd>
+    <dd width="350px"><?php echo $punish['name'] ?></dd>
     <dt>ตามระเบียบว่าด้วยการลงโทษนักเรียน ดังนี้</dt>
 </dl>
 
@@ -70,15 +92,15 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
         <dt width="120px"> ทำทัณฑ์บน</dt>
     </dl>
     <dl>
-        <dt width="10px" style="font-family: fontawesome; font-size:80%;"><?php echo  empty($punish_meta['deductPoints']['meta_value']) ? "&#9723" : "&#9745;"; ?></dt>
+        <dt width="10px" style="font-family: fontawesome; font-size:80%;"><?php echo $deductPoints['check'] ?></dt>
         <dt width="120px">ตัดคะแนนพฤติกรรม</dt>
-        <dd width="110px"><?php echo $punish_meta['deductPoints']['meta_value'] ?></dd>
+        <dd width="110px"><?php echo $deductPoints['meta_value'] ?></dd>
         <dt width="45px">คะแนน</dt>
     </dl>
     <dl>
-        <dt width="10px" style="font-family: fontawesome; font-size:80%;"><?php echo  empty($punish_meta['participateActivities']['meta_value']) ? "&#9723" : "&#9745;"; ?></dt>
+        <dt width="10px" style="font-family: fontawesome; font-size:80%;"><?php echo $joinActivities['check'] ?></dt>
         <dt width="235px"> ทำกิจกรรมเพื่อปรับเปลี่ยนพฤติกรรม โดย</dt>
-        <dd width="180px"><?php echo $punish_meta['participateActivities']['meta_value'] ?></dd>
+        <dd width="180px"><?php echo $joinActivities['meta_value'] ?></dd>
     </dl>
 </div>
 

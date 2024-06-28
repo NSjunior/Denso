@@ -390,9 +390,6 @@ class PaperController extends Controller
   {
     return [
       'student' => [
-        'title' => 'นาย',
-        'firstname' => 'ฉัตรปรัชญา',
-        'lastname' => 'มุ้งบัง',
         'fullname' => 'นายฉัตรปรัชญา มุ้งบัง',
         'student_id' => 123456,
         'phone_number' => '0831269231',
@@ -401,8 +398,9 @@ class PaperController extends Controller
         'student_number' => 30,
       ],
       'request' => [
-        'type' => 1, // 1 = enter the classroom, 2 = go out school
+        'type' => 1, // 1 = come the classroom, 2 = go out school
         'remark' => 'ป่วยหนักต้องไปโรงพยาบาล',
+        'period' => 2,
         'create_date' => '2024-02-10 11:14:51',
       ],
       'parent' => [
@@ -430,7 +428,8 @@ class PaperController extends Controller
       ],
       'punish' => [
         'id' => 1,
-        'name' => 'มาสาย',
+        'mistake' => 'มาสาย',
+        'name' => 'พักการเรียนนักเรียนเป็นเวลา 365 วัน',
         'create_date' => '2024-02-10 11:14:51',
       ],
       'punish_meta' => [
@@ -443,8 +442,8 @@ class PaperController extends Controller
         'deductPoints' => [
           'meta_value' => '10',
         ],
-        'participateActivities' => [
-          'meta_value' => 'ดำน้ำ',
+        'joinActivities' => [
+          'meta_value' => 'เก็บขยะ',
         ]
       ],
       'parent' => [

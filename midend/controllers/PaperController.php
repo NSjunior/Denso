@@ -403,11 +403,15 @@ class PaperController extends Controller
       'request' => [
         'type' => 1, // 1 = enter the classroom, 2 = go out school
         'remark' => 'ป่วยหนักต้องไปโรงพยาบาล',
-        'create_at' => '2024-02-10 11:14:51',
+        'create_date' => '2024-02-10 11:14:51',
       ],
       'parent' => [
         'fullname' => 'นายธรรมนูญ มุ้งบัง',
         'phone_number' => '0912345678',
+      ],
+      'deputyDirector' => [
+        'fullname' => 'นางสาวฐิติภัทร ทองมา',
+        'possition' => 'รองผู้อำนวยการกลุ่มบริหารบุคคล',
       ],
     ];
   }

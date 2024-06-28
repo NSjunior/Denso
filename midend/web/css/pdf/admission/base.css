@@ -416,7 +416,7 @@ dl dt {
   margin-left: 10px;
 }
 
-dd {
+dl dd {
   padding: 0px;
   margin: 0px;
   /* padding-top: 2px; */

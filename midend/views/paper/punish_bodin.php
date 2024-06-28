@@ -7,7 +7,6 @@ $date = Yii::$app->date->date('j', $timestamp);
 
 $datePunish = $punish['create_date'];
 $timestampPunish  = strtotime($datePunish);
-$timestamp = $dtime->getTimestamp();
 $thaiYearPunish = date('Y', $timestampPunish) + 543;
 $monthPunish = Yii::$app->date->date('F', $timestampPunish);
 $datePunish = Yii::$app->date->date('j', $timestampPunish);

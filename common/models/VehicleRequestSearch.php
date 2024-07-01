@@ -11,9 +11,6 @@ use common\models\VehicleRequest;
  */
 class VehicleRequestSearch extends VehicleRequest
 {
-    public $plateName;
-    public $requestName;
-
     /**
      * {@inheritdoc}
      */
@@ -21,7 +18,7 @@ class VehicleRequestSearch extends VehicleRequest
     {
         return [
             [['id', 'vehicle_id', 'requested_id', 'requested_role', 'approver', 'status', 'creator', 'updater'], 'integer'],
-            [['approved_at', 'created_at', 'updated_at', 'plateName', 'requestName'], 'safe'],
+            [['approved_at', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -51,19 +48,6 @@ class VehicleRequestSearch extends VehicleRequest
             'query' => $query,
         ]);
 
-        $dataProvider->sort->attributes['plateName'] = [
-            'asc' => ['vehicle.plate' => SORT_ASC],
-            'desc' => ['vehicle.plate' => SORT_DESC],
-        ];
-
-        $dataProvider->sort->attributes['requestName'] = [
-            'asc' => ['employee.firstname' => SORT_ASC],
-            'desc' => ['employee.firstname' => SORT_DESC],
-        ];
-
-        $query->innerJoinWith('vehicle');
-        $query->innerJoinWith('requester');
-
         $this->load($params);
 
         if (!$this->validate()) {
@@ -71,24 +55,6 @@ class VehicleRequestSearch extends VehicleRequest
             // $query->where('0=1');
             return $dataProvider;
         }
-
-
-        if ($this->plateName) {
-            $query->andFilterWhere([
-                'or',
-                ['like', 'vehicle.plate', $this->plateName],
-            ]);
-        }
-
-        if ($this->requestName) {
-            $query->andFilterWhere([
-                'or',
-                ['like', 'employee.firstname', $this->requestName],
-                ['like', 'employee.lastname', $this->requestName],
-            ]);
-        }
-
-
 
         // grid filtering conditions
         $query->andFilterWhere([

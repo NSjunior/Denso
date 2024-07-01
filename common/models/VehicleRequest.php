@@ -24,13 +24,6 @@ use Yii;
  */
 class VehicleRequest extends \yii\db\ActiveRecord
 {
-    const ROLE_STUDENT = 10;
-    const ROLE_TEACHER = 20;
-    const USER_ID = 1;
-    const STATUS_APPROVED = 20;
-    const STATUS_REQUEST = 10;
-    const STATUS_REJECT = -1;
-    const STATUS_REVOKE = -2;
     /**
      * {@inheritdoc}
      */
@@ -102,18 +95,5 @@ class VehicleRequest extends \yii\db\ActiveRecord
     public function getVehicle()
     {
         return $this->hasOne(Vehicle::class, ['id' => 'vehicle_id']);
-    }
-
-    public function getRequester()
-    {
-        return $this->hasOne(Employee::class, ['id' => 'requested_id']);
-    }
-
-    public static function getAllRoles()
-    {
-        return [
-            self::ROLE_STUDENT => 'นักเรียน',
-            self::ROLE_TEACHER => 'บุคลากร',
-        ];
     }
 }

@@ -26,7 +26,10 @@ $this->disableTitleDisplay = true;
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
     ?>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/visitBodinPdf
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -50,10 +53,17 @@ $this->disableTitleDisplay = true;
                 'urlCreator' => function ($action, VehicleRequest $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/visitBodinPdf
             ],
         ],
     ]); ?>
 
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> feature/visitBodinPdf

@@ -1,6 +1,9 @@
 <?php
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feature/visitBodinPdf
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -36,6 +39,7 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+<<<<<<< HEAD
 =======
 use PhpOffice\PhpSpreadsheet\Calculation\Information\Value;
 use yii\bootstrap5\Html;
@@ -157,3 +161,5 @@ use yii\bootstrap5\ActiveForm;
     });
 </script>
 >>>>>>> feature/vehicleUI
+=======
+>>>>>>> feature/visitBodinPdf

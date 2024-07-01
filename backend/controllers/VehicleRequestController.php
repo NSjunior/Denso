@@ -72,14 +72,22 @@ class VehicleRequestController extends Controller
     {
         $model = new VehicleRequest();
         $modelVehicle = new Vehicle();
+<<<<<<< HEAD
         if ($this->request->isPost) {           
             $post = $this->request->post();
             if($modelVehicle->load($post) && $model->load($post)){
                 if($modelVehicle->save()){
+=======
+        if ($this->request->isPost) {
+            $post = $this->request->post();
+            if ($modelVehicle->load($post) && $model->load($post)) {
+                if ($modelVehicle->save()) {
+>>>>>>> feature/visitBodinPdf
                     $model->vehicle_id = $modelVehicle->id;
                     $model->requested_role = VehicleRequest::ROLE_STUDENT;
                     $model->creator = VehicleRequest::USER_ID;
                     $model->status = VehicleRequest::STATUS_REQUEST;
+<<<<<<< HEAD
                     if($model->save()){
                         return $this->redirect(['view', 'id' => $model->id]);
                     }else{
@@ -91,11 +99,27 @@ class VehicleRequestController extends Controller
                     exit;
                 }
             }else{
+=======
+                    if ($model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    } else {
+                        dump($model->errors);
+                        exit;
+                    }
+                } else {
+                    dump($modelVehicle->errors);
+                    exit;
+                }
+            } else {
+>>>>>>> feature/visitBodinPdf
                 dump($model->errors);
                 dump($modelVehicle->errors);
                 exit;
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/visitBodinPdf
         } else {
             $model->loadDefaultValues();
         }
@@ -112,7 +136,10 @@ class VehicleRequestController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
+<<<<<<< HEAD
     
+=======
+>>>>>>> feature/visitBodinPdf
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -177,7 +204,10 @@ class VehicleRequestController extends Controller
         }
         return $out;
     }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> feature/visitBodinPdf
 }

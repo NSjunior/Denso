@@ -18,4 +18,8 @@ $this->disableTitleDisplay = true;
         'modelVehicle' => $modelVehicle
     ]) ?>
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> feature/visitBodinPdf

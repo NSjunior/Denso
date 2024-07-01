@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feature/visitBodinPdf
 /** @var yii\web\View $this */
 /** @var common\models\Vehicle $model */
 
@@ -19,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+<<<<<<< HEAD
 =======
 $this->title = ""
 ?>
@@ -27,3 +31,5 @@ $this->title = ""
     'model' => $model,
 ]);
 >>>>>>> feature/vehicleUI
+=======
+>>>>>>> feature/visitBodinPdf

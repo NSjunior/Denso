@@ -16,10 +16,18 @@ $dataList = Employee::find()->select(['id', 'CONCAT(title, \' \',firstname, \' \
 $data = ArrayHelper::map($dataList, 'id', 'text');
 $dataurl = \yii\helpers\Url::to(['/employee/list']);
 
+$dataCarType = ['10' => 'มอเตอร์ไซค์', '20' => 'รถยนต์'];
 
+<<<<<<< HEAD
 $provinceList = Province::find()->select(['id', 'name AS text'])->andWhere(['id' => $modelVehicle->province])->asArray()->all();
 $provinceData = ArrayHelper::map($provinceList, 'id', 'text');
 $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
+=======
+
+// $provinceList = Province::find()->select(['id', 'name AS text'])->asArray()->all();
+// $provinceData = ArrayHelper::map($provinceList, 'id', 'text');
+// $url = \yii\helpers\Url::to(['/vehicle-request/list-province']);
+>>>>>>> 1671bce (add field model vehicle request)
 
 ?>
 <div class="row g-4 justify-content-center mb-3 employee-form">
@@ -32,10 +40,13 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                 </div>
             </div>
 
+
             <div class="card-body px-4 pb-0">
                 <div class="row mb-1">
+
                     <div class="col-md">
                         <?php
+<<<<<<< HEAD
                         echo $form->field($model, 'requested_id', [
                             'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
                         ])
@@ -63,10 +74,50 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                                     'templateSelection' => new JsExpression('function (employee) { return employee.text; }'),
                                 ],
                             ])->label('เจ้าของรถ')
+=======
+                        // echo $form->field($model, 'requested_id', [])
+                        //     ->widget(Select2::className(), [
+                        //         'data' => $data,
+                        //         'size' => Select2::LARGE,
+                        //         'options' => [
+                        //             'placeholder' => 'เลือกมนุษย์',
+                        //             'class' => 'form-select form-select-lg mb-3',
+                        //         ],
+                        //         'pluginOptions' => [
+
+                        //             'allowClear' => true,
+                        //             'minimumInputLength' => 3,
+                        //             'language' => [
+                        //                 'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
+                        //             ],
+                        //             'ajax' => [
+                        //                 'url' => $url,
+                        //                 'dataType' => 'json',
+                        //                 'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        //             ],
+                        //             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        //             'templateResult' => new JsExpression('function(employee) { return employee.text; }'),
+                        //             'templateSelection' => new JsExpression('function (employee) { return employee.text; }'),
+                        //         ],
+                        //     ])->label('เจ้าของรถ')
+>>>>>>> 1671bce (add field model vehicle request)
                         ?>
                     </div>
                 </div>
                 <div class="row mb-1">
+                    <div class="col-md">
+                        <?php echo $form->field($modelVehicle, 'type', [
+                            'inputOptions' => [
+                                'id' => 'type',
+                                'placeholder' => 'เลือกประเภทรถ',
+                            ],
+                            'template' => '<div class="form-floating ">{input}{label}{error}{hint}</div>',
+                        ])->dropDownList($dataCarType, [
+                            'class' => 'form-select pt-4',
+                            'style' => 'line-height:25px',
+                            'prompt' => 'ประเภทรถ',
+                        ])->label('ประเภทรถ') ?>
+                    </div>
                     <div class="col-md">
                         <?php
                         echo $form->field($modelVehicle, 'plate', [
@@ -81,6 +132,7 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                     </div>
                     <div class="col-md">
                         <div class="col-md">
+<<<<<<< HEAD
                             <?php echo $form->field($modelVehicle, 'province', [
                                 'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
                             ])
@@ -108,6 +160,35 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                                         'templateSelection' => new JsExpression('function (province) { return province.text; }'),
                                     ],
                                 ])->label('จังหวัด') ?>
+=======
+                            <?php
+                            // echo $form->field($modelVehicle, 'province', [])
+                            //     ->widget(Select2::className(), [
+                            //         'data' => $provinceData,
+                            //         'size' => Select2::LARGE,
+                            //         'options' => [
+                            //             'placeholder' => 'เลือกจังหวัด',
+                            //             'class' => 'form-select form-select-lg mb-3',
+                            //         ],
+                            //         'pluginOptions' => [
+
+                            //             'allowClear' => true,
+                            //             'minimumInputLength' => 2,
+                            //             'language' => [
+                            //                 'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
+                            //             ],
+                            //             'ajax' => [
+                            //                 'url' => $url,
+                            //                 'dataType' => 'json',
+                            //                 'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                            //             ],
+                            //             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                            //             'templateResult' => new JsExpression('function(province) { return province.text; }'),
+                            //             'templateSelection' => new JsExpression('function (province) { return province.text; }'),
+                            //         ],
+                            //     ])->label('จังหวัด')
+                            ?>
+>>>>>>> 1671bce (add field model vehicle request)
                         </div>
                     </div>
                 </div>
@@ -187,6 +268,28 @@ $urlProvince = \yii\helpers\Url::to(['/vehicle-request/list-province']);
                     </div>
                 </div>
 
+            </div>
+            <div class="col-md">
+                <?php
+                echo $form->field($modelVehicle, 'model', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'id' => 'model',
+                        'placeholder' => 'รุ่น',
+                    ],
+                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                ])->label('รุ่น') ?>
+            </div>
+            <div class="col-md">
+                <?php
+                echo $form->field($modelVehicle, 'color', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'id' => 'color',
+                        'placeholder' => 'สี',
+                    ],
+                    'template' => '<div class="form-floating">{input}{label}{error}{hint}</div>',
+                ])->label('สี') ?>
             </div>
 
             <div class="card-footer p-4">

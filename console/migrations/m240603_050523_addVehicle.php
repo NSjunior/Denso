@@ -14,12 +14,21 @@ class m240603_050523_addVehicle extends Migration
     {
         $this->createTable('vehicle',[
             'id' => $this->primaryKey(),
+<<<<<<< HEAD
             'plate' => $this->string(255)->notNull(),
             'province' => $this->string(255)->notNull(),
             'type' => $this->smallInteger()->notNull(), // 10 : Motorcycle, 20 : Car
             'brand'=> $this->string(255)->notNull(), // list options
             'model' => $this->string(255)->notNull(), // list options
             'color' => $this->string(255)->notNull(),
+=======
+            'plate' => $this->string(255)->notNNull(),
+            'province' => $this->string(255)->notNull(),
+            'type' => $this->smallInteger()->notnull(), // 10 : Motorcycle, 20 : Car
+            'brand'=> $this->string(255)->notnull(), // list options
+            'model' => $this->string(255)->notnull(), // list options
+            'color' => $this->string(255)->notnull(),
+>>>>>>> 8bc0660 (migrate vehicle)
             'image' => $this->string(255),
             'plate_image' => $this->string(255),
         ]);
@@ -35,12 +44,12 @@ class m240603_050523_addVehicle extends Migration
             'id' => $this->primaryKey(),
             'vehicle_id' => $this->integer()->notNull(),
             'requested_id' => $this->integer()->notNull(), // student, teacher, other
-            'requested_role' =>$this->smallInteger()->notNull(), // 10: student, 20: teacher, 30: other
+            'requested_role' =>$this->smallInteger()->notnull(), // 10: student, 20: teacher, 30: other
             'approver' => $this->integer(),
             'approved_at' => $this->timestamp(),
-            'status' => $this->integer()->notNull()->defaultValue(0), //0: request, 10: approved, -1: reject ,-2: revoke
+            'status' => $this->integer()->notNull()->defaultValue(0), //0: request, 10: approves, -1: reject
             'creator' => $this->integer()->notNull(),
-            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'created_at' => $this->timestamp(),
             'updater' => $this->integer(),
             'updated_at' => $this->timestamp(),
         ]);

@@ -17,5 +17,4 @@ $this->disableTitleDisplay = true;
         'model' => $model,
         'modelVehicle' => $modelVehicle
     ]) ?>
-
 </div>

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+<<<<<<< HEAD
 use common\models\Vehicle;
 use common\models\VehicleSearch;
 use yii\web\Controller;
@@ -130,5 +131,21 @@ class VehicleController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+=======
+use backend\models\vehicleForm;
+use yii\web\Controller;
+use Yii;
+
+class VehicleController extends Controller
+{
+
+    public function actionCreate()
+    {
+        $model = new VehicleForm();
+        // if ($this->request->ispost) {
+        // }
+        echo $model->phoneNumber;
+        return $this->render('create', ['model' => $model]);
+>>>>>>> feature/vehicleUI
     }
 }

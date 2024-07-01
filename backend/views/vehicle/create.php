@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 
+<<<<<<< HEAD
 /** @var yii\web\View $this */
 /** @var common\models\Vehicle $model */
 
@@ -18,3 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+=======
+$this->title = ""
+?>
+
+<?= $this->render('_form', [
+    'model' => $model,
+]);
+>>>>>>> feature/vehicleUI

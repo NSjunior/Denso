@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\assets;
+namespace backend\assets;
 
 use yii\web\AssetBundle;
 
@@ -14,8 +14,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
     ];
-    public $js = [
-    ];
+    public $js = [];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',

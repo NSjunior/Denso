@@ -32,9 +32,7 @@ if ($request['type'] == 1) {
 }
 ?>
 <div style="float: center;font-size:12pt; text-align: center; font-weight:bold;">
-    <div>
-        <img src="<?php echo $img ?>">
-    </div>
+    <img src="<?php echo $img ?>">
     <p>บัตรขออนุญาต (นักเรียน)</p>
     <p>โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)</p>
     <p style="border-bottom: 0.5px outset black; width:55px; margin-left:290px;">ตอนที่ ๑</p>
@@ -53,27 +51,37 @@ if ($request['type'] == 1) {
         <dt style="margin-left:50px;width:50px;">ข้าพเจ้า</dt>
         <dd style="width:350px;"><?php echo $student['fullname'] ?></dd>
         <dt style="width:26px;">ม.</dt>
-        <dd style="width:40px;"><?php echo $student['secondary'] . '/' . $student['room'] ?></dd>
+        <dd style="width:50px;"><?php echo $student['secondary'] . '/' . $student['room'] ?></dd>
         <dt style="width:40px;">เลขที่</dt>
-        <dd style="width:50px;"><?php echo $student['student_number'] ?></dd>
-        <dt style="width:70px;">ขออนุญาต</dt>
-        <dt width="40px" style="font-family: fontawesome; font-size:80%; "><?php echo $dataComeSchool['type'] ?></dt>
-        <dt style="width:150px;">เข้าห้องเรียน</dt>
-        <dt style="width:40px;">คาบที่</dt>
-        <dd style="width:125px;"><?php echo $dataComeSchool['period'] ?></dd>
-        <dt style="width:40px;">เวลา</dt>
-        <dd style="width:80px;"><?php echo $dataComeSchool['create_date'] ?></dd>
-        <dt style="width:30px;">น.</dt>
-        <dt style="width:70px;">ขออนุญาต</dt>
-        <dt width="40px" style="font-family: fontawesome; font-size:80%; "><?php echo $dataOutSchool['type'] ?></dt>
-        <dt style="width:150px;">ออกนอกบริเวณโรงเรียน</dt>
-        <dt style="width:40px;">คาบที่</dt>
-        <dd style="width:125px;"><?php echo $dataOutSchool['period'] ?></dd>
-        <dt style="width:40px;">เวลา</dt>
-        <dd style="width:80px;"><?php echo $dataOutSchool['create_date'] ?></dd>
-        <dt style="width:30px;">น.</dt>
+        <dd style="width:fit-content;"><?php echo $student['student_number'] ?></dd>
+
+
         <dt style="width: 60px;">เนื่องจาก</dt>
         <dd style="width: fit-content;"><?php echo $request['remark'] ?></dd>
+    </dl>
+    <dl style="float:left; width:50%;">
+        <dt width="60px" style="font-weight:bold;">ขออนุญาต</dt>
+        <dt width="30px" style="font-family: fontawesome; font-size:80%;"><?php echo $dataComeSchool['type'] ?></dt>
+        <dt width="60px" style="margin-left: -5px;">เข้าห้องเรียน</dt>
+    </dl>
+    <dl style="float:rigth; width:50%;">
+        <dt style="width:40px;">คาบที่</dt>
+        <dd style="width:120px;"><?php echo $dataComeSchool['period'] ?></dd>
+        <dt style="width:42px;">เวลา</dt>
+        <dd style="width:80px;"><?php echo $dataComeSchool['create_date'] ?></dd>
+        <dt style="width:fit-content;">น.</dt>
+    </dl>
+    <dl style="float:left; width:50%; ">
+        <dt width="60px" style="font-weight:bold;">ขออนุญาต</dt>
+        <dt width="30px" style="font-family: fontawesome; font-size:80%; "><?php echo $dataOutSchool['type'] ?></dt>
+        <dt width="150px" style="margin-left: -5px;">ออกนอกบริเวณโรงเรียน</dt>
+    </dl>
+    <dl style="float:rigth; width:50%;">
+        <dt style="width:40px;">คาบที่</dt>
+        <dd style="width:120px;"><?php echo $dataOutSchool['period'] ?></dd>
+        <dt style="width:42px;">เวลา</dt>
+        <dd style="width:80px;"><?php echo $dataOutSchool['create_date'] ?></dd>
+        <dt style="width:fit-content;">น.</dt>
     </dl>
 </div>
 <div style="font-size:12pt; padding-left: 40px; float: center;text-align: center;">
@@ -116,38 +124,45 @@ if ($request['type'] == 1) {
     <dl style="float:rigth; width:50%;">
         <dt style="width:30px;">ลงชื่อ</dt>
         <dd style="width:180px;">&nbsp;</dd>
-        <dt style="width:80px">ฝ่ายปกครอง</dt>
+        <dt style="width:80px">ครูที่ปรึกษา</dt>
     </dl>
     <dl style="float:left; width:50%;">
         <dt style="width: 30px;">(</dt>
-        <dd style="width: 180px;"> <?php echo $parent['fullname'] ?> </dd>
+        <dd style="width: 180px;"> <?php echo $teacherClass[0]['fullname'] ?> </dd>
         <dt style="width: 26px;">)</dt>
     </dl>
     <dl style="float:rigth; width:50%;">
         <dt style="width: 30px;">(</dt>
-        <dd style="width: 180px;"> <?php echo $student['fullname'] ?> </dd>
+        <dd style="width: 180px;"> <?php echo $teacherClass[1]['fullname'] ?> </dd>
         <dt style="width: 26px;">)</dt>
     </dl>
 </div>
-<div style="float: center;font-size:12pt; text-align: center; margin-left:200px; margin-top:10px;">
-    <dl>
+<div style="font-size:12pt; padding-left: 40px; float: center;text-align: center;">
+    <dl style="float:left; width:50%;">
+        <dt style="width:30px;">ลงชื่อ</dt>
+        <dd style="width:180px;">&nbsp;</dd>
+        <dt style="width:80px"><?php echo $welfareTeacher['position'] ?></dt>
+    </dl>
+    <dl style="float:rigth; width:50%;">
         <dt style="width:30px;">ลงชื่อ</dt>
         <dd style="width:180px;">&nbsp;</dd>
     </dl>
-    <dl>
+    <dl style="float:left; width:50%;">
         <dt style="width: 30px;">(</dt>
-        <dd style="width: 180px;"> <?php echo $deputyDirector['fullname'] ?> </dd>
+        <dd style="width: 180px;"> <?php echo $welfareTeacher['fullname'] ?> </dd>
         <dt style="width: 26px;">)</dt>
     </dl>
-    <dl style="margin-left:20px;">
-        <dt style="width: 180px;"> <?php echo $deputyDirector['possition'] ?> </dt>
+    <dl style="float:rigth; width:50%; ">
+        <dt style="width: 30px;">(</dt>
+        <dd style="width: 180px; font-weight:bold;"> <?php echo $deputyDirector['fullname'] ?> </dd>
+        <dt style="width: 26px;">)</dt>
+        <dt style="width: 200px; padding: left 30px; font-weight:bold;"><?php echo $deputyDirector['position'] ?> </dt>
     </dl>
 </div>
+
 <hr style="margin-top: 5px; margin-bottom:0px;">
 <div style="float: center;font-size:12pt; text-align: center; font-weight:bold;">
-    <div>
-        <img src="<?php echo $img ?>">
-    </div>
+    <img src="<?php echo $img ?>">
     <p>บัตรขออนุญาต (นักเรียน)</p>
     <p>โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)</p>
     <p style="border-bottom: 0.5px outset black; width:55px; margin-left:290px;">ตอนที่ ๒</p>
@@ -166,27 +181,37 @@ if ($request['type'] == 1) {
         <dt style="margin-left:50px;width:50px;">ข้าพเจ้า</dt>
         <dd style="width:350px;"><?php echo $student['fullname'] ?></dd>
         <dt style="width:26px;">ม.</dt>
-        <dd style="width:40px;"><?php echo $student['secondary'] . '/' . $student['room'] ?></dd>
+        <dd style="width:50px;"><?php echo $student['secondary'] . '/' . $student['room'] ?></dd>
         <dt style="width:40px;">เลขที่</dt>
-        <dd style="width:50px;"><?php echo $student['student_number'] ?></dd>
-        <dt style="width:70px;">ขออนุญาต</dt>
-        <dt width="40px" style="font-family: fontawesome; font-size:80%; "><?php echo $dataComeSchool['type'] ?></dt>
-        <dt style="width:150px;">เข้าห้องเรียน</dt>
-        <dt style="width:40px;">คาบที่</dt>
-        <dd style="width:125px;"><?php echo $dataComeSchool['period'] ?></dd>
-        <dt style="width:40px;">เวลา</dt>
-        <dd style="width:80px;"><?php echo $dataComeSchool['create_date'] ?></dd>
-        <dt style="width:30px;">น.</dt>
-        <dt style="width:70px;">ขออนุญาต</dt>
-        <dt width="40px" style="font-family: fontawesome; font-size:80%; "><?php echo $dataOutSchool['type'] ?></dt>
-        <dt style="width:150px;">ออกนอกบริเวณโรงเรียน</dt>
-        <dt style="width:40px;">คาบที่</dt>
-        <dd style="width:125px;"><?php echo $dataOutSchool['period'] ?></dd>
-        <dt style="width:40px;">เวลา</dt>
-        <dd style="width:80px;"><?php echo $dataOutSchool['create_date'] ?></dd>
-        <dt style="width:30px;">น.</dt>
+        <dd style="width:fit-content;"><?php echo $student['student_number'] ?></dd>
+
+
         <dt style="width: 60px;">เนื่องจาก</dt>
         <dd style="width: fit-content;"><?php echo $request['remark'] ?></dd>
+    </dl>
+    <dl style="float:left; width:50%;">
+        <dt width="60px" style="font-weight:bold;">ขออนุญาต</dt>
+        <dt width="30px" style="font-family: fontawesome; font-size:80%;"><?php echo $dataComeSchool['type'] ?></dt>
+        <dt width="60px" style="margin-left: -5px;">เข้าห้องเรียน</dt>
+    </dl>
+    <dl style="float:rigth; width:50%;">
+        <dt style="width:40px;">คาบที่</dt>
+        <dd style="width:120px;"><?php echo $dataComeSchool['period'] ?></dd>
+        <dt style="width:42px;">เวลา</dt>
+        <dd style="width:80px;"><?php echo $dataComeSchool['create_date'] ?></dd>
+        <dt style="width:fit-content;">น.</dt>
+    </dl>
+    <dl style="float:left; width:50%; ">
+        <dt width="60px" style="font-weight:bold;">ขออนุญาต</dt>
+        <dt width="30px" style="font-family: fontawesome; font-size:80%; "><?php echo $dataOutSchool['type'] ?></dt>
+        <dt width="150px" style="margin-left: -5px;">ออกนอกบริเวณโรงเรียน</dt>
+    </dl>
+    <dl style="float:rigth; width:50%;">
+        <dt style="width:40px;">คาบที่</dt>
+        <dd style="width:120px;"><?php echo $dataOutSchool['period'] ?></dd>
+        <dt style="width:42px;">เวลา</dt>
+        <dd style="width:80px;"><?php echo $dataOutSchool['create_date'] ?></dd>
+        <dt style="width:fit-content;">น.</dt>
     </dl>
 </div>
 <div style="font-size:12pt; padding-left: 40px; float: center;text-align: center;">
@@ -229,30 +254,38 @@ if ($request['type'] == 1) {
     <dl style="float:rigth; width:50%;">
         <dt style="width:30px;">ลงชื่อ</dt>
         <dd style="width:180px;">&nbsp;</dd>
-        <dt style="width:80px">ฝ่ายปกครอง</dt>
+        <dt style="width:80px">ครูที่ปรึกษา</dt>
     </dl>
     <dl style="float:left; width:50%;">
         <dt style="width: 30px;">(</dt>
-        <dd style="width: 180px;"> <?php echo $parent['fullname'] ?> </dd>
+        <dd style="width: 180px;"> <?php echo $teacherClass[0]['fullname'] ?> </dd>
         <dt style="width: 26px;">)</dt>
     </dl>
     <dl style="float:rigth; width:50%;">
         <dt style="width: 30px;">(</dt>
-        <dd style="width: 180px;"> <?php echo $student['fullname'] ?> </dd>
+        <dd style="width: 180px;"> <?php echo $teacherClass[1]['fullname'] ?> </dd>
         <dt style="width: 26px;">)</dt>
     </dl>
 </div>
-<div style="float: center;font-size:12pt; text-align: center; margin-left:200px; margin-top:8px;">
-    <dl>
+<div style="font-size:12pt; padding-left: 40px; float: center;text-align: center;">
+    <dl style="float:left; width:50%;">
+        <dt style="width:30px;">ลงชื่อ</dt>
+        <dd style="width:180px;">&nbsp;</dd>
+        <dt style="width:80px"><?php echo $welfareTeacher['position'] ?></dt>
+    </dl>
+    <dl style="float:rigth; width:50%;">
         <dt style="width:30px;">ลงชื่อ</dt>
         <dd style="width:180px;">&nbsp;</dd>
     </dl>
-    <dl>
+    <dl style="float:left; width:50%;">
         <dt style="width: 30px;">(</dt>
-        <dd style="width: 180px;"> <?php echo $deputyDirector['fullname'] ?> </dd>
+        <dd style="width: 180px;"> <?php echo $welfareTeacher['fullname'] ?> </dd>
         <dt style="width: 26px;">)</dt>
     </dl>
-    <dl style="margin-left:20px;">
-        <dt style="width: 180px;"> <?php echo $deputyDirector['possition'] ?> </dt>
+    <dl style="float:rigth; width:50%; ">
+        <dt style="width: 30px;">(</dt>
+        <dd style="width: 180px; font-weight:bold;"> <?php echo $deputyDirector['fullname'] ?> </dd>
+        <dt style="width: 26px;">)</dt>
+        <dt style="width: 200px; padding: left 30px; font-weight:bold;"><?php echo $deputyDirector['position'] ?> </dt>
     </dl>
 </div>

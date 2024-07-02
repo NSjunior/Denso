@@ -41,7 +41,7 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
         <img src="<?php echo $img ?>">
     </div>
     <p style="text-align:center; font-weight: bold;">แบบบันทึกการลงโทษนักเรียน</p>
-    <p style="text-align:right;"> <?php echo "โรงเรียนบดินทรเดชา(สิงห์ สิงหเสนี)" ?> </p>
+    <p style="text-align:right;"> <?php echo "โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)" ?> </p>
     <dl style="font-size:16pt;float: right;margin-left:350px;">
         <dt style="width:30px;">วันที่</dt>
         <dd style="width:40px;"><?php echo $date ?></dd>
@@ -55,12 +55,10 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
 
 <dl style="margin-top: 5px;font-size:16pt;">
     <dt style="padding-left: 40px; width:55;">เนื่องด้วย</dt>
-    <dd style="width:190px;"><?php echo $student['title'] . $student['firstname'] ?></dd>
-    <dt style="width:50px;">นามสกุล</dt>
-    <dd style="width:190px;"><?php echo $student['lastname'] ?></dd>
+    <dd style="width:470px;"><?php echo $student['fullname'] ?></dd>
     <dt style="width:30px;">ชั้น</dt>
-    <dd style="width:70px;"><?php echo 'ม.' . $student['secondary'] . '/' . $student['room'] ?></dd>
-    <dt style="width:85px;">เลขที่ประจำตัว</dt>
+    <dd style="width:60px;"><?php echo 'ม.' . $student['secondary'] . '/' . $student['room'] ?></dd>
+    <dt style="width:85px;">เลขประจำตัว</dt>
     <dd style="width:120px;"><?php echo $student['student_id'] ?></dd>
     <dt style="width:220px;">ได้กระทำผิดระเบียบของโรงเรียน ข้อที่</dt>
     <dd style="width:40px;"><?php echo $punish['id'] ?></dd>
@@ -74,21 +72,22 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
     <dt style="width:30px;">พ.ศ.</dt>
     <dd style="width:50px;"><?php echo $thaiYearPunish ?></dd>
 </dl>
+
 <dl style="font-size:16pt; ">
-    <dt style="padding-left: 40px;">ดังนั้น เพื่อเจตนาที่จะแก้นิสัยและความประพฤติไม่ดีของนักเรียนให้รู้สำนึกในความผิดกลับประพฤติ</dt>
-    <dt style="width: 460px;">ตนในทางที่ดี และมิให้เป็นเยี่ยงอย่างต่อผู้อื่นไป<?php echo "บดินเดขา (สิงห์ สิงหเสนี)" ?> จึงลงโทษ</dt>
-    <dd style="width: 185px;">&nbsp;</dd>
+    <dt style="font-size:16pt;padding-left: 40px; text-justify: inter-word; line-height:28px">ดังนั้น เพื่อเจตนาที่จะแก้นิสัยและความประพฤติไม่ดีของนักเรียนให้รู้สำนึกในความผิดกลับประพฤติตนในทางที่ดี</dt>
+    <dt style="width: 460px;"> และมิให้เป็นเยี่ยงอย่างต่อผู้อื่นต่อไป โรงเรียนบดินเดชา (สิงห์ สิงหเสนี) จึงลงโทษ</dt>
+    <dd style="width: 200px;">&nbsp;</dd>
     <dd width="350px"><?php echo $punish['name'] ?></dd>
     <dt>ตามระเบียบว่าด้วยการลงโทษนักเรียน ดังนี้</dt>
 </dl>
 
-<div style="padding-left: 150px; font-size:16pt; ">
+<div style="padding-left: 150px; font-size:15pt; ">
     <dl>
-        <dt width="10px" style="font-family: fontawesome; font-size:80%; "><?php echo  empty($punish_meta['warning']['meta_value']) ? "&#9723" : "&#9745;"; ?></dt>
+        <dt width="10px" style="font-family: fontawesome; font-size:80%; "><?php echo  $punish_meta['warning']['meta_value'] == 0 ? "&#9723" : "&#9745;"; ?></dt>
         <dt width="120px"> ว่ากล่าวตักเตือน</dt>
     </dl>
     <dl>
-        <dt width="10px" style="font-family: fontawesome; font-size:80%;"><?php echo  empty($punish_meta['parole']['meta_value']) ? "&#9723" : "&#9745;"; ?></dt>
+        <dt width="10px" style="font-family: fontawesome; font-size:80%;"><?php echo  $punish_meta['parole']['meta_value'] == 0 ? "&#9723" : "&#9745;"; ?></dt>
         <dt width="120px"> ทำทัณฑ์บน</dt>
     </dl>
     <dl>
@@ -124,7 +123,7 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
         <dd style="width:150px;"><?php echo $teacherClass[1]['fullname'] ?></dd>
         <dt style="width: 25px;">)</dt>
         <dt style="width: 25px;">(</dt>
-        <dd style="width:150px;"><?php echo $teacherClass[1]['fullname'] ?></dd>
+        <dd style="width:150px;"><?php echo $HeadTeacher['fullname'] ?></dd>
         <dt style="width: 25px;">)</dt>
     </dl>
     <dl>
@@ -133,13 +132,13 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
         <dt style="width: 210px;">........./......................../.........</dt>
     </dl>
     <dl>
-        <dt style="width: 210px;"><?php echo $teacherClass[0]['possition'] ?></dt>
-        <dt style="width: 210px;"><?php echo $teacherClass[1]['possition'] ?></dt>
-        <dt style="width: 120px;"><?php echo $teacher['possition'] ?></dt>
+        <dt style="width: 210px;"><?php echo $teacherClass[0]['position'] ?></dt>
+        <dt style="width: 210px;"><?php echo $teacherClass[1]['position'] ?></dt>
+        <dt style="width: 120px;"><?php echo $HeadTeacher['position'] ?></dt>
         <dd style="width: 70px;"><?php echo $student['secondary'] ?></dd>
     </dl>
 </div>
-<div style="margin-top: 15px; font-size:14pt; padding-left: 40px;float: center;text-align: center;">
+<div style="margin-top: 15px; font-size:14pt; padding-left: 40px;float: center;text-align: center; ">
     <dl style="float:left; width:50%;">
         <dt style="width:50px;">ลงชื่อ</dt>
         <dd style="width: 200px;">&nbsp;</dd>
@@ -159,23 +158,23 @@ $img = "https://app.nextschool.io/img/logo/1672727480hkw_logo.png";
         <dt style="width: 30px;">)</dt>
     </dl>
     <dl style="float:left; width:45%;">
-        <dt style="width: 240px;"><?php echo $deputyDirector['possition'] ?></dt>
+        <dt style="width: 240px;"><?php echo $deputyDirector['position'] ?></dt>
     </dl>
     <dl style="float:rigth; width:55%;text-align: center;">
-        <dt style="margin-left: 25px;width: 280px;"><?php echo $director['possition'] ?></dt>
+        <dt style="margin-left: 25px;width: 280px;"><?php echo $director['position'] ?></dt>
     </dl>
 </div>
-<hr>
+<hr style="margin-bottom:10px; margin-top:10px;">
 <dl style="font-size:16pt;">
     <dt style="padding-left: 50px; width: 60px;">ข้าพเจ้า</dt>
     <dd style="width: 170px;"><?php echo $parent['fullname'] ?></dd>
     <dt style="width: 90px;">ผู้ปกครองของ</dt>
-    <dd style="width: 200px;"><?php echo $student['fullname'] ?></dd>
-    <dt style="width:800px;">ได้รับทราบพฤติกรรมและการลงโทษครั้งที่แล้ว และสัญญาว่าจะดูแลว่ากล่าวตักเตือนและแก้ไขพฤติกรรม</dt>
-    <dt style="width:fit-content;">นักเรียนในปกครองของข้าพเจ้าให้อยู่ในระเบียบของโรงเรียนต่อไป ถ้าฝ่าฝืนไม่ปฏิบัติตามระเบียนโรงเรียน</dt>
-    <dt style="width:fit-content;">ยินดีให้โรงเรียนพิจารณาโทษตามที่เห็นสมควร</dt>
-</dl>
+    <dd style="width: fit-content;"><?php echo $student['fullname'] ?></dd>
 
+</dl>
+<p style="margin-top: 15px;line-height:20px;font-size:16pt; text-align:justify;text-justify:distribute; line-height:28px">
+    ได้รับทราบพฤติกรรมและการลงโทษครั้งที่แล้ว และสัญญาว่าจะดูแลว่ากล่าวตักเตือนและแก้ไขพฤติกรรม นักเรียนในปกครองของข้าพเจ้าให้อยู่ในระเบียบของโรงเรียนต่อไป ถ้าฝ่าฝืนไม่ปฏิบัติตามระเบียนโรงเรียน
+    ยินดีให้โรงเรียนพิจารณาโทษตามที่เห็นสมควร</p>
 <div style="font-size:14pt; margin-top: 5px;padding-left: 40px; float: center;text-align: center;">
     <dl style="float:left; width:50%;">
         <dt style="width:30px;">ลงชื่อ</dt>

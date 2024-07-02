@@ -50,8 +50,41 @@ class PaperController extends Controller
 
     return $footer;
   }
+  private function header()
+  {
+    $dtime = \DateTime::createFromFormat("Y-m-d", date('Y-m-d'));
+    $timestamp = $dtime->getTimestamp();
+    $header = array(
+      'odd' => array(
+        'L' => array(
+          'content' => '',
+          'font-size' => 10,
+          'font-style' => 'B',
+          'font-family' => 'serif',
+          'color' => '#000000'
+        ),
+        'C' => array(
+          'content' => '',
+          'font-size' => 10,
+          'font-style' => 'B',
+          'font-family' => 'serif',
+          'color' => '#000000'
+        ),
+        'R' => array(
+          'content' => 'My document',
+          'font-size' => 10,
+          'font-style' => 'B',
+          'font-family' => 'serif',
+          'color' => '#000000'
+        ),
+        'line' => 1,
+      ),
+      'even' => array()
+    );
+    return $header;
+  }
 
-  private function outputPDF($fileName, $content, $cssFilePath, $overrideConfig = [], $additionals = [], $watermark = "", $orientation = "P")
+  private function outputPDF($fileName, $content, $cssFilePath, $overrideConfig = [], $additionals = [], $watermark = "", $orientation = "P", $format = 'A4', $header = 0)
   {
 
     $margin_left = $overrideConfig['margin_left'] ?? null;
@@ -59,7 +92,7 @@ class PaperController extends Controller
     $margin_top = $overrideConfig['margin_top'] ?? null;
     $margin_bottom = $overrideConfig['margin_bottom'] ?? null;
 
-    $mpdf = new NgMpdf('utf-8', 'A4', 12, 'thsarabunnew', $left = 18, $right = 13, $top = 8, $bottom = 8, $mgh = 5, $mgf = 2, 'P');
+    $mpdf = new NgMpdf('utf-8', $format, 12, 'thsarabunnew', $left = 18, $right = 18, $top = 8, $bottom = 8, $mgh = 5, $mgf = 2, 'P');
 
     $mpdf->showWatermarkText = true;
     $mpdf->filename = $fileName . ".pdf";
@@ -82,10 +115,12 @@ class PaperController extends Controller
     if ($margin_bottom !== null) {
       $customCssContent .= '@page { margin-bottom: ' . $margin_bottom . 'px; }';
     }
-
-    $mpdf->genPdf($content, $customCssContent, $this->footer(), $additionals, $watermark);
+    if ($header == 0) {
+      $mpdf->genPdf($content, $customCssContent, [], $this->footer(), $additionals, $watermark);
+    } else {
+      $mpdf->genPdf($content, $customCssContent,  $this->footer(), $this->footer(), $additionals, $watermark);
+    }
   }
-
 
   public function actionExamidcard()
   {
@@ -354,7 +389,7 @@ class PaperController extends Controller
 
     $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals);
   }
-  public function actionPunish_bodin()
+  public function actionPunishBodin()
   {
     $data = $this->dummyDataPunishBodin();
     $html = $this->renderPartial('punish_bodin', [...$data]);
@@ -365,12 +400,12 @@ class PaperController extends Controller
     $extraCssPath = Yii::getAlias('@midend') . '/web/css/pdf/admission/base.css';
     $additionals = [];
     $overrideConfig = [
-      'margin_left' => 96,
-      'margin_right' => 48,
+      'margin_left' => 64,
+      'margin_right' => 64,
     ];
     $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals);
   }
-  public function actionStudent_request_bodin()
+  public function actionStudentRequestBodin()
   {
     $data = $this->dummyDataRequestBodin();
     $html = $this->renderPartial('student_request_bodin', [...$data]);
@@ -381,10 +416,27 @@ class PaperController extends Controller
     $extraCssPath = Yii::getAlias('@midend') . '/web/css/pdf/admission/base.css';
     $additionals = [];
     $overrideConfig = [
-      'margin_left' => 96,
-      'margin_right' => 48,
+      'margin_left' => 64,
+      'margin_right' => 64,
     ];
-    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals);
+    $header = 1;
+    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals, "", "", "", 1);
+  }
+  public function actionStudentRequestBodinLandscape()
+  {
+    $data = $this->dummyDataRequestBodin();
+    $html = $this->renderPartial('student_request_bodin_landscape', [...$data]);
+
+    $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+
+    $fileName = "บัตรขออนุญาต (นักเรียน)";
+    $extraCssPath = Yii::getAlias('@midend') . '/web/css/pdf/admission/base.css';
+    $additionals = [];
+    $overrideConfig = [
+      'margin_left' => 40,
+      'margin_right' => 40,
+    ];
+    $this->outputPDF($fileName, $html, $extraCssPath, $overrideConfig, $additionals, "", "", 'A4-L');
   }
   private function dummyDataRequestBodin()
   {
@@ -407,9 +459,23 @@ class PaperController extends Controller
         'fullname' => 'นายธรรมนูญ มุ้งบัง',
         'phone_number' => '0912345678',
       ],
+      'teacherClass' => [
+        0 => [
+          'fullname' => 'นายธีระชัย เถลิงลาภ',
+          'position' => 'ครูที่ปรึกษา',
+        ],
+        1 => [
+          'fullname' => 'นายพรพล เทพไทยอำนวย',
+          'position' => 'ครูที่ปรึกษา',
+        ],
+      ],
+      'welfareTeacher' => [
+        'fullname' => 'นางสาวนิตญา ราชบุตร',
+        'position' => 'ฝ่ายปกครอง',
+      ],
       'deputyDirector' => [
         'fullname' => 'นางสาวฐิติภัทร ทองมา',
-        'possition' => 'รองผู้อำนวยการกลุ่มบริหารบุคคล',
+        'position' => 'รองผู้อำนวยการกลุ่มบริหารบุคคล',
       ],
     ];
   }
@@ -417,9 +483,6 @@ class PaperController extends Controller
   {
     return [
       'student' => [
-        'title' => 'นาย',
-        'firstname' => 'ฉัตรปรัชญา',
-        'lastname' => 'มุ้งบัง',
         'fullname' => 'นายฉัตรปรัชญา มุ้งบัง',
         'student_id' => 123456,
         'phone_number' => '0831269231',
@@ -434,10 +497,10 @@ class PaperController extends Controller
       ],
       'punish_meta' => [
         'warning' => [
-          'meta_value' => '',
+          'meta_value' => 0,
         ],
         'parole' => [
-          'meta_value' => '',
+          'meta_value' => 0,
         ],
         'deductPoints' => [
           'meta_value' => '10',
@@ -453,24 +516,24 @@ class PaperController extends Controller
       'teacherClass' => [
         0 => [
           'fullname' => 'นายธีระชัย เถลิงลาภ',
-          'possition' => 'ครูที่ปรึกษา',
+          'position' => 'ครูที่ปรึกษา',
         ],
         1 => [
           'fullname' => 'นายพรพล เทพไทยอำนวย',
-          'possition' => 'ครูที่ปรึกษา',
+          'position' => 'ครูที่ปรึกษา',
         ],
       ],
-      'teacher' => [
+      'HeadTeacher' => [
         'fullname' => 'นางสาวนิตญา ราชบุตร',
-        'possition' => 'หัวหน้าระดับชั้น ม.',
+        'position' => 'หัวหน้าระดับชั้น ม.',
       ],
       'deputyDirector' => [
         'fullname' => 'นางสาวฐิติภัทร ทองมา',
-        'possition' => 'รองผู้อำนวยการกลุ่มบริหารบุคคล',
+        'position' => 'รองผู้อำนวยการกลุ่มบริหารบุคคล',
       ],
       'director' => [
         'fullname' => 'นายสมพร สังวาระ',
-        'possition' => 'ผู้อำนวยการโรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)',
+        'position' => 'ผู้อำนวยการโรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)',
       ],
 
     ];

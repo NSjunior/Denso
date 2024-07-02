@@ -97,7 +97,7 @@ class NgMpdf extends Mpdf
     $this->filename = $name . '.pdf';
   }
 
-  public function genPdf($content, $css = '', $footer = [], $additionals = [], $watermark = "")
+  public function genPdf($content, $css = '', $header = [], $footer = [], $additionals = [], $watermark = "")
   {
 
     $stylesheet = file_get_contents(Yii::getAlias('@midend') . '/web/css/bootstrap3.7.min.css');
@@ -105,6 +105,9 @@ class NgMpdf extends Mpdf
     $this->WriteHTML($stylesheet, 1);
     $this->WriteHTML($content, 2);
 
+    if ($header) {
+      $this->SetHeader($header, "", TRUE);
+    }
 
     if ($footer) {
       $this->SetFooter($footer);
